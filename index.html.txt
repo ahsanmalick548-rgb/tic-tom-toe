@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Tic.tom.toe — Tic Tac Toe Online Game (Free)</title>
+<meta name="description" content="Play Tic.tom.toe, a fun Tic Tac Toe game you can play online in your browser for free. Fast, simple and mobile-friendly." />
+<link rel="canonical" href="YOUR_SITE_URL" />
+<meta name="robots" content="index, follow" />
+
+<meta property="og:title" content="Tic.tom.toe — Tic Tac Toe Online" />
+<meta property="og:description" content="Play Tic.tom.toe, a fun Tic Tac Toe game you can play online for free." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="YOUR_SITE_URL" />
+<meta property="og:image" content="YOUR_OG_IMAGE_URL" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Tic.tom.toe — Tic Tac Toe Online" />
+<meta name="twitter:description" content="Play Tic.tom.toe, a fun Tic Tac Toe game you can play online for free." />
+<meta name="twitter:image" content="YOUR_OG_IMAGE_URL" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Tic.tom.toe",
+  "alternateName": ["Tic Tac Toe", "Tic Tac Toe Online"],
+  "applicationCategory": "Game",
+  "operatingSystem": "Any",
+  "url": "YOUR_SITE_URL",
+  "author": {
+    "@type": "Person",
+    "name": "Ali Ahsan",
+    "sameAs": [
+      "https://www.instagram.com/itsmeguys21334/?hl=en"
+    ]
+  }
+}
+</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>Playroom — A little friendly competition</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --surface: #111a2e;
+      --surface-2: #16233d;
+      --text: #e8eefc;
+      --muted: #a7b3d1;
+      --primary: #6d5efc;
+      --secondary: #22c55e;
+      --accent: #06b6d4;
+      --danger: #ef4444;
+      --border: rgba(255,255,255,0.10);
+      --shadow: 0 16px 48px color-mix(in srgb, var(--bg) 65%, transparent);
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; color: inherit; }
+    button, select, input { -webkit-tap-highlight-color: transparent; }
+    button:disabled { cursor: not-allowed; }
+    button, a, input, select, summary { outline-offset: 5px; }
+    :focus-visible { outline: 2px solid var(--accent); }
+    h1, h2, h3, p { margin: 0; }
+    svg { display: block; }
+    .icon { width: 20px; height: 20px; flex: 0 0 auto; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); border: 0;
+    }
+    .shell { width: min(1160px, calc(100% - 64px)); margin: 0 auto; }
+    .site-header {
+      min-height: 102px; display: flex; align-items: center;
+      justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 12px; padding: 0; border: 0;
+      background: none; font-size: 26px; font-weight: 850; letter-spacing: -1.2px;
+    }
+    .brand-mark {
+      display: grid; grid-template-columns: repeat(2, 9px); gap: 4px;
+      background: color-mix(in srgb, var(--primary) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+      padding: 10px; border-radius: 12px; transform: rotate(-5deg);
+    }
+    .brand-mark i { width: 9px; height: 9px; background: var(--primary); border-radius: 2px; }
+    .brand-mark i:last-child { background: var(--accent); }
+    .header-right, .header-nav, .header-tools { display: flex; align-items: center; gap: 24px; }
+    .header-tools { gap: 10px; }
+    .nav-link {
+      background: none; border: 0; padding: 10px 0; color: var(--muted);
+      font-size: 13px; font-weight: 600; transition: color .2s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--text); }
+    .nav-link.active::after {
+      content: ""; display: block; width: 16px; height: 3px;
+      margin: 5px auto -8px; border-radius: 3px; background: var(--primary);
+    }
+    .tool-divider { width: 1px; height: 24px; background: var(--border); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      padding: 11px 17px; min-height: 44px; border: 1px solid var(--border);
+      border-radius: 11px; background: var(--surface-2); color: var(--text);
+      font-size: 13px; font-weight: 650;
+      transition: transform .18s, background .18s, border-color .18s, box-shadow .18s;
+    }
+    .btn:hover:not(:disabled) { border-color: color-mix(in srgb, var(--muted) 45%, transparent); transform: translateY(-1px); }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { opacity: .45; }
+    .btn-primary { background: var(--primary); border-color: var(--primary); }
+    .btn-primary:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--primary) 86%, var(--text));
+      border-color: var(--primary); box-shadow: 0 4px 20px color-mix(in srgb, var(--primary) 20%, transparent);
+    }
+    .btn-quiet { background: transparent; }
+    .btn-icon { padding: 11px; width: 44px; height: 44px; }
+    .btn-wide { width: 100%; }
+    .text-button {
+      background: none; border: none; padding: 5px 0; color: var(--muted);
+      display: inline-flex; align-items: center; gap: 8px; font-size: 13px; transition: color .2s;
+    }
+    .text-button:hover { color: var(--text); }
+    .eyebrow {
+      font-size: 10px; font-weight: 750; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--secondary); display: inline-block; flex: 0 0 auto; }
+    .hero { display: flex; align-items: center; justify-content: space-between; gap: 36px; padding: 57px 0 45px; }
+    .hero .eyebrow { display: flex; align-items: center; gap: 9px; margin-bottom: 17px; }
+    .hero h1 { font-size: clamp(39px, 5.2vw, 66px); letter-spacing: -3px; line-height: 1.08; font-weight: 800; }
+    .hero h1 span { color: var(--primary); }
+    .hero-description { margin-top: 20px; color: var(--muted); font-size: 15px; line-height: 1.8; max-width: 440px; }
+    .hero-art { position: relative; width: 310px; flex-shrink: 0; text-align: center; padding: 10px; }
+    .hero-art::before {
+      position: absolute; content: ""; width: 210px; height: 210px; top: 8px; left: 48px;
+      border: 1px solid var(--border); border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--primary) 9%, transparent), transparent 70%);
+    }
+    .hero-controller { width: 270px; height: 190px; margin: auto; position: relative; transform: rotate(-9deg); animation: drift 6s ease-in-out infinite; }
+    .hero-art .eyebrow { justify-content: center; font-size: 9px; letter-spacing: 2.3px; margin: 15px 0 0; }
+    .hero-star { position: absolute; color: var(--accent); font-size: 24px; top: 20px; right: 25px; }
+    .hero-star.small { color: var(--primary); left: 16px; top: 138px; right: auto; font-size: 17px; }
+    @keyframes drift { 50% { transform: translateY(-7px) rotate(-6deg); } }
+    .library-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 19px; }
+    .library-heading h2 { font-size: 17px; font-weight: 650; letter-spacing: -.3px; }
+    .library-meta { display: flex; align-items: center; gap: 16px; }
+    .library-meta > .eyebrow { font-size: 9px; letter-spacing: 1.6px; }
+    .resume-link { font-size: 11px; color: var(--accent); }
+    .resume-link .icon { width: 14px; height: 14px; }
+    .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .game-card {
+      min-width: 0; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+      transition: transform .25s, border-color .25s;
+    }
+    .game-card:hover { transform: translateY(-5px); border-color: color-mix(in srgb, var(--primary) 45%, var(--border)); }
+    .card-preview {
+      height: 218px; position: relative; display: flex; align-items: center; justify-content: center;
+      overflow: hidden; border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse at 50% 70%, color-mix(in srgb, var(--primary) 13%, var(--surface)), var(--surface));
+    }
+    .card-preview::before {
+      content: ""; position: absolute; inset: 0; opacity: .22;
+      background-image: radial-gradient(var(--muted) .6px, transparent .6px);
+      background-size: 17px 17px; mask-image: linear-gradient(to bottom, transparent, var(--bg));
+    }
+    .preview-ludo { background: radial-gradient(ellipse at 50% 70%, color-mix(in srgb, var(--secondary) 9%, var(--surface)), var(--surface)); }
+    .preview-pong { background: radial-gradient(ellipse at 50% 70%, color-mix(in srgb, var(--accent) 12%, var(--surface)), var(--surface)); }
+    .preview-top { position: absolute; top: 17px; left: 20px; right: 20px; display: flex; align-items: center; justify-content: space-between; }
+    .game-number { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+    .category-tag { padding: 3px 8px; border: 1px solid var(--border); border-radius: 5px; color: var(--muted); font-size: 8px; font-weight: 700; letter-spacing: 1.2px; }
+    .ttt-demo { display: grid; grid-template-columns: repeat(3, 45px); gap: 6px; transform: translateY(12px) rotate(-8deg); position: relative; }
+    .ttt-demo > div { width: 45px; height: 45px; display: grid; place-items: center; background: var(--surface-2); border: 1px solid var(--border); border-radius: 9px; }
+    .ttt-demo .demo-win { background: color-mix(in srgb, var(--primary) 20%, var(--surface-2)); border-color: color-mix(in srgb, var(--primary) 45%, transparent); }
+    .ttt-demo svg { width: 26px; height: 26px; color: var(--primary); }
+    .ttt-demo .demo-o svg { color: var(--accent); }
+    .mini-ludo-wrap { width: 149px; transform: translateY(14px) rotate(7deg); box-shadow: var(--shadow); border-radius: 10px; }
+    .preview-dice {
+      position: absolute; right: 24%; bottom: 23px; width: 36px; height: 36px;
+      border: 1px solid var(--border); border-radius: 9px; background: var(--surface-2);
+      transform: rotate(-13deg); display: grid; grid-template-columns: repeat(2, 5px);
+      justify-content: center; align-content: center; gap: 4px; box-shadow: var(--shadow);
+    }
+    .preview-dice i { width: 5px; height: 5px; border-radius: 50%; background: var(--text); }
+    .pong-demo { width: 240px; max-width: 82%; position: relative; transform: translateY(15px) rotate(-6deg); filter: drop-shadow(0 12px 10px var(--bg)); }
+    .card-body { padding: 24px; }
+    .card-title-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+    .card-body h3 { font-size: 23px; font-weight: 720; letter-spacing: -.7px; }
+    .card-body p { color: var(--muted); font-size: 12px; line-height: 1.8; margin-top: 9px; min-height: 44px; }
+    .game-meta { display: flex; align-items: center; gap: 13px; color: var(--muted); font-size: 10px; margin: 18px 0 22px; }
+    .game-meta span { display: flex; align-items: center; gap: 5px; }
+    .game-meta .icon { width: 13px; height: 13px; }
+    .game-meta .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+    .card-play { justify-content: space-between; padding-left: 16px; padding-right: 15px; }
+    .card-play .icon { width: 17px; height: 17px; }
+    .last-badge { font-size: 8px; color: var(--accent); letter-spacing: .4px; white-space: nowrap; }
+    .home-benefits { display: flex; align-items: center; justify-content: center; gap: 36px; padding: 29px 0 9px; color: var(--muted); font-size: 10px; }
+    .home-benefits span { display: flex; gap: 7px; align-items: center; }
+    .home-benefits .icon { width: 14px; height: 14px; color: var(--muted); }
+    .site-footer {
+      margin-top: 36px; padding: 22px 0 26px; border-top: 1px solid var(--border);
+      color: var(--muted); display: flex; justify-content: space-between; gap: 15px; font-size: 10px;
+    }
+    .footer-tag { letter-spacing: 1.2px; font-size: 9px; display: flex; align-items: center; gap: 7px; }
+    .footer-tag .dot { width: 5px; height: 5px; }
+
+    #game-view { padding-top: 25px; }
+    .game-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: 20px 0 25px; }
+    .game-heading h1 { font-size: 34px; letter-spacing: -1.3px; line-height: 1.25; margin-top: 5px; }
+    .game-actions { display: flex; gap: 9px; flex-wrap: wrap; }
+    .game-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 22px; align-items: start; }
+    .play-card, .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+    .play-card { padding: 28px; box-shadow: var(--shadow); }
+    .panel { padding: 23px; }
+    .sidebar { display: grid; gap: 16px; }
+    .panel-heading { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: var(--muted); margin-bottom: 17px; }
+    .field { display: grid; gap: 8px; margin-top: 18px; }
+    .field:first-child { margin-top: 0; }
+    .field > label, .field-label { color: var(--muted); font-size: 11px; font-weight: 600; }
+    select {
+      width: 100%; min-height: 42px; padding: 9px 31px 9px 12px; border: 1px solid var(--border);
+      border-radius: 9px; background: var(--surface-2); color: var(--text); cursor: pointer; font-size: 12px;
+    }
+    select:disabled { opacity: .45; cursor: not-allowed; }
+    .segmented { display: flex; padding: 4px; background: var(--bg); border: 1px solid var(--border); border-radius: 11px; gap: 4px; }
+    .segmented button {
+      background: none; border: 0; border-radius: 7px; padding: 10px 7px; flex: 1;
+      color: var(--muted); font-size: 11px; font-weight: 650;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .segmented button[aria-pressed="true"] { background: var(--surface-2); color: var(--text); box-shadow: var(--shadow); }
+    .segmented .icon { width: 15px; height: 15px; }
+    .helper { color: var(--muted); font-size: 11px; line-height: 1.7; margin-top: 13px; }
+    .board-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 24px; }
+    .board-top .eyebrow { letter-spacing: 1.3px; font-size: 9px; }
+    .live-label { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 10px; }
+    .board-caption { margin: 24px 0 0; text-align: center; color: var(--muted); font-size: 11px; }
+    .round-message { margin-top: 17px; }
+    .round-message h2 { font-size: 21px; letter-spacing: -.6px; line-height: 1.3; margin-top: 7px; }
+    .round-message p { color: var(--muted); font-size: 12px; line-height: 1.8; margin-top: 8px; }
+    .round-message .btn { margin-top: 20px; }
+    .turn-icon {
+      display: grid; place-items: center; width: 45px; height: 45px;
+      background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; color: var(--primary);
+    }
+    .turn-icon .icon { width: 23px; height: 23px; }
+
+    .ttt-board-wrap { position: relative; width: min(100%, 370px); margin: 13px auto 0; }
+    .ttt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .ttt-cell {
+      width: 100%; aspect-ratio: 1; padding: 0; display: grid; place-items: center;
+      background: var(--surface-2); border: 1px solid var(--border); border-radius: 16px;
+      transition: background .2s, border-color .2s, transform .2s;
+    }
+    .ttt-cell:hover:not(:disabled) { background: color-mix(in srgb, var(--primary) 14%, var(--surface-2)); border-color: var(--primary); transform: translateY(-2px); }
+    .ttt-cell:disabled { cursor: default; }
+    .ttt-cell svg { width: 48%; height: 48%; color: var(--primary); animation: mark-in .2s ease-out; }
+    .ttt-cell.o svg { color: var(--accent); }
+    .ttt-cell.winning { background: color-mix(in srgb, var(--secondary) 11%, var(--surface-2)); border-color: color-mix(in srgb, var(--secondary) 55%, var(--border)); }
+    .ttt-cell.winning svg { color: var(--secondary); }
+    @keyframes mark-in { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+    .ttt-win-line { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: var(--secondary); opacity: .65; }
+    .ttt-legend { display: flex; justify-content: center; gap: 27px; margin-top: 25px; font-size: 11px; color: var(--muted); }
+    .ttt-legend span { display: flex; align-items: center; gap: 6px; }
+    .ttt-legend svg { width: 12px; height: 12px; color: var(--primary); }
+    .ttt-legend span:last-child svg { color: var(--accent); }
+    .score-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .score-tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 12px 5px; text-align: center; }
+    .score-tile strong { font-size: 26px; line-height: 1.2; font-weight: 700; display: block; font-variant-numeric: tabular-nums; }
+    .score-tile span { display: block; font-size: 9px; color: var(--muted); margin-top: 6px; }
+    .score-tile:first-child strong { color: var(--primary); }
+    .score-tile:nth-child(2) strong { color: var(--accent); }
+    .score-note { font-size: 10px; color: var(--muted); margin-top: 12px; display: flex; align-items: center; gap: 5px; }
+    .score-note .icon { width: 12px; height: 12px; }
+
+    /* Ludo: local friends or one human against AI robots. */
+    .ludo-opponents {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 22px; padding: 17px 23px; margin-bottom: 18px;
+    }
+    .ludo-opponents h2 { font-size: 14px; font-weight: 650; letter-spacing: -.2px; }
+    .ludo-opponents .helper { margin-top: 4px; }
+    .ludo-opponents .segmented { min-width: 270px; flex-shrink: 0; }
+    .ludo-board {
+      position: relative; display: grid; grid-template-columns: repeat(15, 1fr);
+      grid-template-rows: repeat(15, 1fr); aspect-ratio: 1; width: min(100%, 480px);
+      margin: auto; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    }
+    .ludo-cell {
+      background: var(--surface-2); border: .5px solid var(--border); display: grid;
+      place-items: center; min-width: 0; min-height: 0; font-size: clamp(6px, 1.1vw, 13px); color: var(--muted);
+    }
+    .ludo-cell.lane { background: color-mix(in srgb, var(--player-color) 27%, var(--surface)); }
+    .ludo-cell.safe { color: var(--player-color); background: color-mix(in srgb, var(--player-color) 15%, var(--surface-2)); }
+    .ludo-home {
+      position: relative; background: color-mix(in srgb, var(--player-color) 22%, var(--surface));
+      border: 1px solid color-mix(in srgb, var(--player-color) 40%, transparent); display: grid; place-items: center;
+    }
+    .ludo-home::before {
+      content: ""; width: 65%; height: 65%; border-radius: 16%;
+      border: 1px solid color-mix(in srgb, var(--player-color) 40%, transparent);
+      background: color-mix(in srgb, var(--bg) 60%, transparent);
+    }
+    .ludo-home.inactive { opacity: .3; }
+    .ludo-center { grid-column: 7 / span 3; grid-row: 7 / span 3; position: relative; display: grid; place-items: center; background: var(--surface-2); }
+    .ludo-center svg { width: 100%; height: 100%; opacity: .55; }
+    .ludo-center span { position: absolute; color: var(--text); font-size: clamp(13px, 2vw, 23px); }
+    .ludo-tokens { position: absolute; inset: 0; pointer-events: none; }
+    .ludo-token {
+      position: absolute; width: 5.7%; aspect-ratio: 1;
+      border: 2px solid color-mix(in srgb, var(--text) 75%, transparent);
+      border-radius: 50%; background: var(--player-color); color: var(--bg);
+      display: grid; place-items: center; padding: 0; font-size: clamp(8px, 1vw, 12px); font-weight: 850;
+      transform: translate(-50%, -50%); box-shadow: 0 2px 5px var(--bg); pointer-events: auto; z-index: 2;
+    }
+    .ludo-token::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; }
+    .ludo-token:disabled { opacity: 1; cursor: default; }
+    .ludo-token.movable { z-index: 4; outline: 2px solid var(--text); outline-offset: 3px; animation: token-pulse 1.4s ease-in-out infinite; cursor: pointer; }
+    .ludo-token.movable:hover { transform: translate(-50%, -50%) scale(1.15); }
+    .ludo-token.robot-ready { outline: 1px dashed var(--player-color); outline-offset: 3px; }
+    @keyframes token-pulse { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--player-color) 25%, transparent), 0 2px 5px var(--bg); } }
+    .mini-ludo-wrap .ludo-board { border-radius: 8px; }
+    .mini-ludo-wrap .ludo-token { border-width: 1px; font-size: 0; width: 6.2%; pointer-events: none; }
+    .mini-ludo-wrap .ludo-cell { font-size: 5px; }
+    .mini-ludo-wrap .ludo-center span { font-size: 9px; }
+    .dice-bar { display: flex; align-items: center; gap: 15px; padding-top: 23px; margin-top: 22px; border-top: 1px solid var(--border); }
+    .dice {
+      display: grid; grid-template-columns: repeat(3, 8px); grid-template-rows: repeat(3, 8px); gap: 5px;
+      align-content: center; justify-content: center; width: 62px; height: 62px; flex: 0 0 auto;
+      border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2); box-shadow: var(--shadow);
+    }
+    .dice i { width: 8px; height: 8px; border-radius: 50%; background: var(--text); visibility: hidden; }
+    .dice.rolling { animation: dice-shake .2s linear infinite; }
+    @keyframes dice-shake { 25% { transform: rotate(-9deg) translateY(-2px); } 75% { transform: rotate(9deg) translateY(2px); } }
+    .dice-copy { flex: 1; min-width: 0; }
+    .dice-copy h2 { font-size: 16px; letter-spacing: -.3px; }
+    .dice-copy p { font-size: 11px; color: var(--muted); line-height: 1.6; margin-top: 4px; min-height: 35px; }
+    .dice-bar .btn { flex-shrink: 0; padding-inline: 13px; }
+    .ludo-key { display: flex; justify-content: center; gap: 21px; margin-top: 15px; font-size: 9px; color: var(--muted); }
+    .ludo-key span:first-child { color: var(--accent); }
+    .player-list { display: grid; gap: 9px; }
+    .player-row { border: 1px solid var(--border); border-radius: 11px; padding: 11px 12px; display: flex; align-items: center; gap: 11px; }
+    .player-row.active { border-color: var(--player-color); background: color-mix(in srgb, var(--player-color) 9%, transparent); }
+    .player-color { width: 12px; height: 12px; border-radius: 50%; background: var(--player-color); flex-shrink: 0; }
+    .player-details { flex: 1; min-width: 0; }
+    .player-details strong { font-size: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-weight: 650; }
+    .player-details small { color: var(--muted); font-size: 9px; display: block; }
+    .player-role {
+      display: inline-flex; align-items: center; gap: 3px; padding: 0 5px;
+      color: var(--muted); font-size: 8px; line-height: 1.8;
+      border: 1px solid var(--border); border-radius: 4px; font-weight: 600;
+    }
+    .player-role .icon { width: 10px; height: 10px; }
+    .finished-dots { display: flex; gap: 5px; flex-shrink: 0; }
+    .finished-dots i { width: 8px; height: 8px; border: 1px solid var(--player-color); border-radius: 50%; }
+    .finished-dots i.filled { background: var(--player-color); }
+    .checkbox-label { display: flex; align-items: flex-start; gap: 9px; color: var(--muted); font-size: 11px; margin-top: 16px; cursor: pointer; }
+    .checkbox-label input { accent-color: var(--primary); margin: 3px 0 0; width: 15px; height: 15px; flex-shrink: 0; }
+    .rules-mini { font-size: 11px; color: var(--muted); }
+    .rules-mini summary { cursor: pointer; font-weight: 650; color: var(--text); }
+    .rules-mini ul { margin: 12px 0 0; padding-left: 16px; }
+    .rules-mini li { margin: 5px 0; padding-left: 2px; }
+
+    .pong-options { display: flex; gap: 20px; align-items: end; padding: 20px 24px; margin-bottom: 18px; flex-wrap: wrap; }
+    .pong-options .field { flex: 1; min-width: 135px; margin: 0; }
+    .pong-options .btn { margin-left: auto; }
+    .pong-card { padding: 0; overflow: hidden; }
+    .pong-scoreboard { display: flex; align-items: center; justify-content: center; gap: 48px; padding: 22px; }
+    .pong-score-side { display: flex; align-items: center; gap: 20px; min-width: 170px; justify-content: flex-end; }
+    .pong-score-side.right { flex-direction: row-reverse; }
+    .pong-score-side strong { font-size: 49px; font-weight: 750; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -2px; }
+    .pong-score-side.left strong { color: var(--primary); }
+    .pong-score-side.right strong { color: var(--accent); }
+    .pong-player-label { display: grid; gap: 3px; text-align: right; }
+    .right .pong-player-label { text-align: left; }
+    .pong-player-label span { font-weight: 650; font-size: 12px; }
+    .pong-player-label small { color: var(--muted); font-size: 9px; }
+    .pong-score-middle { text-align: center; min-width: 80px; }
+    .pong-score-middle .eyebrow { font-size: 8px; letter-spacing: 1.3px; }
+    .pong-score-middle span { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; }
+    .court-wrap { position: relative; margin: 0 20px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); aspect-ratio: 16 / 9; }
+    #pong-canvas { width: 100%; height: 100%; display: block; touch-action: none; outline-offset: -4px; }
+    .court-overlay { position: absolute; inset: 0; background: color-mix(in srgb, var(--bg) 85%, transparent); display: grid; place-items: center; padding: 20px; }
+    .court-overlay-content { text-align: center; max-width: 350px; }
+    .court-overlay .overlay-icon {
+      margin: 0 auto 15px; width: 48px; height: 48px; display: grid; place-items: center;
+      border-radius: 14px; background: color-mix(in srgb, var(--primary) 16%, var(--surface));
+      color: var(--primary); border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    }
+    .court-overlay h2 { font-size: clamp(22px, 3vw, 33px); letter-spacing: -.9px; line-height: 1.2; }
+    .court-overlay p { font-size: 12px; color: var(--muted); margin: 12px 0 21px; line-height: 1.8; }
+    .court-overlay .btn { min-width: 155px; }
+    .pong-bottom { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 17px 24px; font-size: 10px; color: var(--muted); }
+    .pong-controls-note { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+    kbd { padding: 2px 5px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font: inherit; font-size: 9px; min-width: 17px; text-align: center; }
+    #pong-point { text-align: right; color: var(--muted); }
+
+    dialog {
+      width: min(430px, calc(100% - 32px)); max-height: calc(100dvh - 48px);
+      border: 1px solid var(--border); border-radius: 22px; background: var(--surface);
+      padding: 29px; color: var(--text); box-shadow: var(--shadow);
+    }
+    dialog::backdrop { background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(7px); }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+    .modal-header h2 { font-size: 24px; letter-spacing: -.6px; }
+    .modal-header .btn { width: 34px; height: 34px; min-height: 34px; padding: 8px; flex-shrink: 0; }
+    .modal-description { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.8; }
+    .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 23px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .settings-row strong { display: block; font-size: 13px; font-weight: 650; }
+    .settings-row small { display: block; font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .switch { position: relative; display: inline-flex; flex-shrink: 0; }
+    .switch input { position: absolute; opacity: 0; width: 44px; height: 25px; margin: 0; }
+    .switch-track { width: 44px; height: 25px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; transition: background .2s; }
+    .switch-track::after { content: ""; position: absolute; left: 4px; top: 4px; width: 17px; height: 17px; background: var(--muted); border-radius: 50%; transition: transform .2s; }
+    .switch input:checked + .switch-track { background: var(--primary); border-color: var(--primary); }
+    .switch input:checked + .switch-track::after { background: var(--text); transform: translateX(19px); }
+    .switch input:focus-visible + .switch-track { outline: 2px solid var(--accent); outline-offset: 4px; }
+    .settings-note { display: flex; align-items: flex-start; gap: 9px; color: var(--muted); font-size: 11px; padding: 21px 0; }
+    .settings-note .icon { width: 17px; height: 17px; margin-top: 2px; }
+    .rules-content { color: var(--muted); font-size: 12px; line-height: 1.9; margin: 17px 0 25px; }
+    .rules-content h3 { font-size: 14px; color: var(--text); margin: 18px 0 5px; }
+    .rules-content ul { padding-left: 19px; }
+    .rules-content li { margin-bottom: 7px; }
+    .rules-content strong { color: var(--text); font-weight: 650; }
+    .toast {
+      position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 20;
+      display: flex; gap: 8px; align-items: center; padding: 11px 17px; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow);
+      font-size: 12px; width: max-content; max-width: calc(100% - 32px);
+    }
+    .toast .icon { width: 15px; height: 15px; color: var(--secondary); }
+    .reduced-motion *, .reduced-motion *::before, .reduced-motion *::after {
+      animation: none !important; transition: none !important; scroll-behavior: auto !important;
+    }
+
+    @media (min-width: 1400px) {
+      .hero { padding-top: 68px; padding-bottom: 54px; }
+      .card-preview { height: 235px; }
+    }
+    @media (max-width: 960px) {
+      .shell { width: calc(100% - 40px); }
+      .game-grid { gap: 15px; }
+      .card-body { padding: 20px; }
+      .card-body h3 { font-size: 20px; }
+      .game-meta { gap: 8px; font-size: 9px; }
+      .card-preview { height: 201px; }
+      .hero-art { width: 260px; }
+      .hero-controller { width: 240px; }
+      .hero-art::before { left: 25px; }
+      .game-layout { grid-template-columns: minmax(0, 1fr) 275px; gap: 17px; }
+      .play-card { padding: 22px; }
+      .panel { padding: 20px; }
+      .dice-bar { flex-wrap: wrap; }
+      .dice-bar > .btn { width: 100%; }
+      .pong-card { padding: 0; }
+    }
+    @media (max-width: 760px) {
+      .header-nav, .tool-divider { display: none; }
+      .site-header { min-height: 85px; }
+      .hero { padding: 39px 0 34px; }
+      .hero h1 { font-size: 47px; letter-spacing: -2px; }
+      .hero-art { width: 190px; }
+      .hero-controller { width: 180px; height: 145px; }
+      .hero-art::before { width: 155px; height: 155px; left: 23px; }
+      .hero-art .eyebrow { font-size: 7px; letter-spacing: 1px; }
+      .hero-star { right: 0; }
+      .hero-description { font-size: 13px; }
+      .game-grid { grid-template-columns: 1fr; gap: 18px; }
+      .game-card { display: grid; grid-template-columns: 42% 58%; }
+      .card-preview { height: 100%; min-height: 230px; border-bottom: 0; border-right: 1px solid var(--border); }
+      .card-body { padding: 23px; }
+      .card-body h3 { font-size: 24px; }
+      .card-body p { min-height: 0; }
+      .game-meta { font-size: 10px; margin: 14px 0 18px; }
+      .game-layout { grid-template-columns: 1fr; }
+      .ttt-sidebar { grid-template-columns: 1fr 1fr; }
+      .ttt-sidebar .turn-panel { grid-row: span 2; }
+      .ludo-opponents { align-items: stretch; flex-direction: column; gap: 13px; }
+      .ludo-opponents .segmented { min-width: 0; }
+      .ludo-sidebar { grid-template-columns: 1fr 1fr; }
+      .ludo-sidebar > :last-child { grid-column: 1 / -1; }
+      .dice-bar > .btn { width: auto; }
+      .dice-bar { flex-wrap: nowrap; }
+      .ludo-cell { font-size: 12px; }
+      .ludo-token { font-size: 11px; }
+      .game-heading h1 { font-size: 29px; }
+      .pong-scoreboard { gap: 22px; }
+      .pong-score-side { min-width: 115px; gap: 15px; }
+      .pong-options { gap: 12px; }
+      .pong-options .field { min-width: 120px; }
+      .pong-bottom { align-items: flex-start; }
+      .court-wrap { margin-inline: 12px; }
+    }
+    @media (max-width: 480px) {
+      .shell { width: calc(100% - 32px); }
+      .site-header { min-height: 78px; }
+      .brand { font-size: 23px; gap: 9px; }
+      .brand-mark { padding: 8px; }
+      .header-tools { gap: 7px; }
+      .settings-label { display: none; }
+      #open-settings { padding: 11px; }
+      .hero { padding: 34px 0 31px; }
+      .hero-art { display: none; }
+      .hero h1 { font-size: 46px; }
+      .hero .eyebrow { font-size: 8px; letter-spacing: 1.7px; }
+      .hero-description { font-size: 13px; }
+      .library-heading { align-items: flex-end; }
+      .library-heading h2 { font-size: 15px; }
+      .library-meta > .eyebrow { display: none; }
+      .resume-link { max-width: 150px; text-align: right; font-size: 10px; }
+      .game-card { display: block; }
+      .card-preview { height: 213px; min-height: 0; border-right: 0; border-bottom: 1px solid var(--border); }
+      .card-body { padding: 23px; }
+      .card-body p { font-size: 12px; }
+      .game-meta { margin: 16px 0 20px; }
+      .home-benefits { gap: 15px; flex-wrap: wrap; font-size: 9px; }
+      .home-benefits span:last-child { display: none; }
+      .site-footer { font-size: 9px; margin-top: 26px; }
+      .footer-tag { font-size: 7px; letter-spacing: .8px; }
+      .game-heading { align-items: flex-start; gap: 12px; flex-direction: column; }
+      .game-heading h1 { font-size: 31px; }
+      .game-actions { width: 100%; }
+      .game-actions .btn { flex: 1; font-size: 11px; padding: 9px 11px; min-height: 40px; }
+      .play-card { padding: 18px; }
+      .ttt-grid { gap: 9px; }
+      .ttt-cell { border-radius: 12px; }
+      .ttt-sidebar { grid-template-columns: 1fr; }
+      .ttt-sidebar .turn-panel { grid-row: auto; display: grid; grid-template-columns: 45px 1fr; gap: 16px; }
+      .round-message { margin-top: 0; }
+      .ludo-opponents { padding: 16px 18px; }
+      .ludo-sidebar { grid-template-columns: 1fr; }
+      .ludo-cell { font-size: 9px; }
+      .ludo-token { border-width: 1.5px; font-size: 9px; width: 6%; }
+      .dice-bar { gap: 12px; flex-wrap: wrap; }
+      .dice-bar > .btn { width: 100%; }
+      .dice { width: 56px; height: 56px; }
+      .dice-copy h2 { font-size: 15px; }
+      .ludo-key { font-size: 8px; gap: 14px; }
+      .pong-card { padding: 0; }
+      .pong-options { padding: 16px; gap: 12px; }
+      .pong-options .field { min-width: calc(50% - 12px); }
+      .pong-options .btn { flex: 1; }
+      .pong-scoreboard { gap: 12px; padding: 20px 10px; }
+      .pong-score-side { min-width: 90px; gap: 10px; }
+      .pong-score-side strong { font-size: 37px; }
+      .pong-player-label span { font-size: 10px; }
+      .pong-player-label small { font-size: 8px; }
+      .pong-score-middle { min-width: 57px; }
+      .pong-score-middle .eyebrow { font-size: 7px; letter-spacing: .7px; }
+      .pong-score-middle span { font-size: 8px; }
+      .court-wrap { margin: 0 8px; aspect-ratio: 4 / 3; }
+      .court-overlay { padding: 15px; }
+      .court-overlay .overlay-icon { display: none; }
+      .court-overlay h2 { font-size: 25px; }
+      .court-overlay p { font-size: 10px; margin: 8px 0 14px; }
+      .court-overlay .btn { min-height: 39px; padding: 8px 12px; font-size: 11px; }
+      .pong-bottom { padding: 14px; flex-direction: column; gap: 8px; }
+      #pong-point { text-align: left; }
+      dialog { padding: 23px; }
+    }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden">
+    <defs>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-x" viewBox="0 0 40 40"><path d="m10 10 20 20M30 10 10 30" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></symbol>
+      <symbol id="i-o" viewBox="0 0 40 40"><circle cx="20" cy="20" r="12" fill="none" stroke="currentColor" stroke-width="5"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><path d="m9.3 3-.6 2.1-1.9 1.1-2.2-.5L2 10l1.5 1.6v2.1L2 15.3l2.6 4.3 2.2-.5 1.9 1.1.6 2.1h5.1l.6-2.1 1.9-1.1 2.2.5 2.6-4.3-1.5-1.6v-2.1l1.5-1.6-2.6-4.3-2.2.5L15 5.1 14.4 3Z" transform="translate(1 0) scale(.92)" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+      <symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 4 6 8H3v8h3l5 4V4Zm4 4a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-muted" viewBox="0 0 24 24"><path d="M11 4 6 8H3v8h3l5 4V4Zm5 5 6 6m0-6-6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-16a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 9h6v6H9Zm0-7v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-8l1-7Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m8 12 3 3 5-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 .5 6M4 4v6h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8V4Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Zm0 0v15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 3h10v7a5 5 0 0 1-10 0V3Zm0 2H3v3a4 4 0 0 0 4 4m10-7h4v3a4 4 0 0 1-4 4m-5 3v6m-4 0h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="shell">
+    <header class="site-header">
+      <button class="brand" id="brand-home" aria-label="Playroom home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>playroom.</span>
+      </button>
+      <div class="header-right">
+        <nav class="header-nav" aria-label="Main navigation">
+          <button class="nav-link active" id="nav-games">The arcade</button>
+          <button class="nav-link" id="nav-guide">Quick guide</button>
+        </nav>
+        <div class="tool-divider"></div>
+        <div class="header-tools">
+          <button class="btn btn-quiet btn-icon" id="sound-toggle" aria-label="Turn sound off" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#i-sound"></use></svg></button>
+          <button class="btn btn-quiet" id="open-settings"><svg class="icon" aria-hidden="true"><use href="#i-settings"></use></svg><span class="settings-label">Settings</span></button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="home-view" aria-label="Game menu">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="dot"></span>The small-break arcade</div>
+            <h1>Big fun.<br><span>Just press play.</span></h1>
+            <p class="hero-description">Three timeless games, one good place to unwind.<br>Challenge a friend or take on the machine.</p>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <span class="hero-star">✦</span><span class="hero-star small">✦</span>
+            <svg class="hero-controller" viewBox="0 0 280 200" fill="none">
+              <path d="M113 49c0-22 48-4 48-27" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 6"/>
+              <path d="M86 57h108c22 0 32 16 39 43l12 46c7 31-13 41-30 22l-27-30H91l-28 30c-17 19-37 9-30-22l12-46c7-27 19-43 41-43Z" fill="var(--surface-2)" stroke="var(--primary)" stroke-width="2.5"/>
+              <path d="M91 75h96c17 0 26 9 32 29" stroke="var(--border)" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M77 84h14v16h16v14H91v16H77v-16H61v-14h16V84Z" fill="var(--primary)" stroke="var(--primary)" stroke-linejoin="round" stroke-width="4"/>
+              <circle cx="194" cy="89" r="9" fill="var(--accent)"/>
+              <circle cx="215" cy="111" r="9" fill="var(--secondary)"/>
+              <circle cx="173" cy="111" r="9" stroke="var(--accent)" stroke-width="2.5"/>
+              <circle cx="194" cy="132" r="9" stroke="var(--primary)" stroke-width="2.5"/>
+              <rect x="119" y="108" width="15" height="5" rx="2.5" fill="var(--muted)"/>
+              <rect x="143" y="108" width="15" height="5" rx="2.5" fill="var(--muted)"/>
+            </svg>
+            <div class="eyebrow">No installs. All play.</div>
+          </div>
+        </div>
+
+        <section aria-labelledby="library-title">
+          <div class="library-heading">
+            <h2 id="library-title">Pick your next play</h2>
+            <div class="library-meta">
+              <button class="text-button resume-link" id="resume-game" hidden><span></span><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></button>
+              <span class="eyebrow">03 games · always open</span>
+            </div>
+          </div>
+          <div class="game-grid">
+            <article class="game-card">
+              <div class="card-preview" aria-hidden="true">
+                <div class="preview-top"><span class="game-number">01 /</span><span class="category-tag">OUTTHINK</span></div>
+                <div class="ttt-demo">
+                  <div class="demo-win"><svg><use href="#i-x"></use></svg></div>
+                  <div class="demo-o"><svg><use href="#i-o"></use></svg></div><div></div>
+                  <div class="demo-o"><svg><use href="#i-o"></use></svg></div>
+                  <div class="demo-win"><svg><use href="#i-x"></use></svg></div><div></div>
+                  <div></div><div class="demo-o"><svg><use href="#i-o"></use></svg></div>
+                  <div class="demo-win"><svg><use href="#i-x"></use></svg></div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="card-title-row"><h3>Tic Tac Toe</h3><span class="last-badge" data-last="tictactoe" hidden>LAST PLAYED</span></div>
+                <p>Three in a row. A step ahead.<br>A small board for your next big move.</p>
+                <div class="game-meta"><span><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>1–2 players</span><i class="meta-dot"></i><span>Strategy</span></div>
+                <button class="btn btn-primary btn-wide card-play" data-game="tictactoe"><span>Play Tic Tac Toe</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></button>
+              </div>
+            </article>
+
+            <article class="game-card">
+              <div class="card-preview preview-ludo" aria-hidden="true">
+                <div class="preview-top"><span class="game-number">02 /</span><span class="category-tag">OUTRACE</span></div>
+                <div class="mini-ludo-wrap"><div class="ludo-board" id="ludo-preview-board"></div></div>
+                <div class="preview-dice"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+              <div class="card-body">
+                <div class="card-title-row"><h3>Ludo</h3><span class="last-badge" data-last="ludo" hidden>LAST PLAYED</span></div>
+                <p>Roll with it. Race for home.<br>Challenge your friends or race the robots.</p>
+                <div class="game-meta"><span><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>1–4 players</span><i class="meta-dot"></i><span>Classic board</span></div>
+                <button class="btn btn-primary btn-wide card-play" data-game="ludo"><span>Play Ludo</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></button>
+              </div>
+            </article>
+
+            <article class="game-card">
+              <div class="card-preview preview-pong" aria-hidden="true">
+                <div class="preview-top"><span class="game-number">03 /</span><span class="category-tag">OUTPLAY</span></div>
+                <svg class="pong-demo" viewBox="0 0 280 164">
+                  <rect x="2" y="2" width="276" height="160" rx="13" fill="var(--bg)" stroke="var(--border)" stroke-width="2"/>
+                  <path d="M140 11v142" stroke="var(--muted)" stroke-opacity=".35" stroke-dasharray="5 7"/>
+                  <text x="105" y="46" fill="var(--muted)" opacity=".45" font-size="28" font-weight="700" font-family="ui-monospace, monospace">3</text>
+                  <text x="161" y="46" fill="var(--muted)" opacity=".45" font-size="28" font-weight="700" font-family="ui-monospace, monospace">2</text>
+                  <rect x="22" y="80" width="8" height="43" rx="4" fill="var(--primary)"/>
+                  <rect x="250" y="38" width="8" height="43" rx="4" fill="var(--accent)"/>
+                  <path d="m159 104 23-11m-13 17 22-10" stroke="var(--text)" opacity=".15" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="200" cy="90" r="6" fill="var(--text)"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <div class="card-title-row"><h3>Table Tennis</h3><span class="last-badge" data-last="pong" hidden>LAST PLAYED</span></div>
+                <p>Find your rhythm. Keep the rally.<br>Old-school Pong with a competitive kick.</p>
+                <div class="game-meta"><span><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>1–2 players</span><i class="meta-dot"></i><span>Quick reflexes</span></div>
+                <button class="btn btn-primary btn-wide card-play" data-game="pong"><span>Play Table Tennis</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></button>
+              </div>
+            </article>
+          </div>
+        </section>
+        <div class="home-benefits">
+          <span><svg class="icon" aria-hidden="true"><use href="#i-bolt"></use></svg>Instant play. Zero downloads.</span>
+          <span><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>Your progress stays yours.</span>
+          <span><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>Solo or side by side.</span>
+        </div>
+      </section>
+
+      <section id="game-view" hidden>
+        <button class="text-button" id="back-to-menu"><svg class="icon" aria-hidden="true"><use href="#i-back"></use></svg>Back to menu</button>
+        <div class="game-heading">
+          <div><div class="eyebrow" id="game-category"></div><h1 id="game-title" tabindex="-1"></h1></div>
+          <div class="game-actions">
+            <button class="btn btn-quiet" id="game-rules"><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>How to play</button>
+            <button class="btn" id="reset-game"><svg class="icon" aria-hidden="true"><use href="#i-reset"></use></svg>Reset game</button>
+          </div>
+        </div>
+
+        <section id="tictactoe-panel" class="game-panel" hidden aria-label="Tic Tac Toe">
+          <div class="game-layout">
+            <div class="play-card">
+              <div class="board-top"><span class="eyebrow">Every square counts</span><span class="live-label"><span class="dot"></span><span id="ttt-round-state">Round in play</span></span></div>
+              <div class="ttt-board-wrap">
+                <div class="ttt-grid" id="ttt-board" role="group" aria-label="Tic Tac Toe board"></div>
+                <svg class="ttt-win-line" id="ttt-win-line" viewBox="0 0 300 300" hidden aria-hidden="true"><line stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+              </div>
+              <div class="ttt-legend">
+                <span><svg aria-hidden="true"><use href="#i-x"></use></svg><span id="ttt-x-label">You</span></span>
+                <span><svg aria-hidden="true"><use href="#i-o"></use></svg><span id="ttt-o-label">The bot</span></span>
+              </div>
+              <p class="board-caption">Three in a row. Horizontally, vertically, or diagonally.</p>
+            </div>
+            <aside class="sidebar ttt-sidebar">
+              <div class="panel turn-panel">
+                <div class="turn-icon" id="ttt-turn-icon" aria-hidden="true"></div>
+                <div class="round-message" aria-live="polite" aria-atomic="true">
+                  <div class="eyebrow" id="ttt-status-label">You're up</div>
+                  <h2 id="ttt-status">Your move.</h2><p id="ttt-description"></p>
+                  <button class="btn btn-primary btn-wide" id="ttt-again" hidden><svg class="icon" aria-hidden="true"><use href="#i-reset"></use></svg>Play another round</button>
+                </div>
+              </div>
+              <div class="panel">
+                <h2 class="panel-heading">Choose your challenger</h2>
+                <div class="segmented" role="group" aria-label="Tic Tac Toe mode">
+                  <button data-ttt-mode="ai" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#i-cpu"></use></svg>Vs. the bot</button>
+                  <button data-ttt-mode="local" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>Vs. a friend</button>
+                </div>
+                <div class="field" id="ttt-difficulty-field">
+                  <label for="ttt-difficulty">Bot difficulty</label>
+                  <select id="ttt-difficulty"><option value="easy">Easy · a little room for mistakes</option><option value="hard" selected>Hard · an unbeatable opponent</option></select>
+                </div>
+                <p class="helper">Changing mode or difficulty starts a new round.</p>
+              </div>
+              <div class="panel">
+                <h2 class="panel-heading">The running score</h2>
+                <div class="score-tiles">
+                  <div class="score-tile"><strong id="ttt-score-x">0</strong><span>X WINS</span></div>
+                  <div class="score-tile"><strong id="ttt-score-o">0</strong><span>O WINS</span></div>
+                  <div class="score-tile"><strong id="ttt-score-draw">0</strong><span>DRAWS</span></div>
+                </div>
+                <div class="score-note"><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>All modes · saved on this device</div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="ludo-panel" class="game-panel" hidden aria-label="Ludo">
+          <div class="panel ludo-opponents">
+            <div>
+              <h2>Who's at the table?</h2>
+              <p class="helper" id="ludo-mode-note">Pass the dice. Everyone shares this device.</p>
+            </div>
+            <div class="segmented" role="group" aria-label="Ludo opponents">
+              <button data-ludo-mode="local" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>With friends</button>
+              <button data-ludo-mode="ai" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-cpu"></use></svg>Vs. robots</button>
+            </div>
+          </div>
+          <div class="game-layout">
+            <div class="play-card">
+              <div class="board-top"><span class="eyebrow">The race is on</span><span class="live-label"><span class="dot"></span><span id="ludo-play-mode">Local multiplayer</span></span></div>
+              <div class="ludo-board" id="ludo-board" role="group" aria-label="Ludo board. On your turn, choose a highlighted token after rolling."></div>
+              <div class="ludo-key"><span>★ Star squares are safe</span><span>2 tokens per player</span></div>
+              <div class="dice-bar">
+                <div class="dice" id="ludo-dice" role="img" aria-label="Dice not rolled"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="dice-copy" aria-live="polite" aria-atomic="true"><h2 id="ludo-turn"></h2><p id="ludo-message"></p></div>
+                <button class="btn btn-primary" id="ludo-roll"><svg class="icon" aria-hidden="true"><use href="#i-bolt"></use></svg>Roll dice</button>
+                <button class="btn btn-primary" id="ludo-again" hidden><svg class="icon" aria-hidden="true"><use href="#i-reset"></use></svg>Play again</button>
+              </div>
+            </div>
+            <aside class="sidebar ludo-sidebar">
+              <div class="panel">
+                <h2 class="panel-heading">Meet the players</h2>
+                <div class="player-list" id="ludo-players"></div>
+              </div>
+              <div class="panel">
+                <h2 class="panel-heading">Your house rules</h2>
+                <div class="field">
+                  <label for="ludo-count" id="ludo-count-label">Players on this device</label>
+                  <select id="ludo-count">
+                    <option value="2">2 players · opposite corners</option>
+                    <option value="3">3 players</option>
+                    <option value="4">4 players · a full house</option>
+                  </select>
+                </div>
+                <label class="checkbox-label"><input type="checkbox" id="ludo-six" checked><span>Roll a six to leave the starting yard</span></label>
+                <p class="helper">Changing opponents, players, or a house rule starts a new match.</p>
+              </div>
+              <details class="panel rules-mini" open>
+                <summary>The short version</summary>
+                <ul>
+                  <li>Roll, then tap a glowing token to move.</li>
+                  <li>Vs. robots: you're Violet. Robots roll and move automatically.</li>
+                  <li>A six gets a token out and earns another turn.</li>
+                  <li>Land on a rival to send them back. Stars are safe.</li>
+                  <li>Follow the track, then your colored lane. No exact roll needed to finish.</li>
+                  <li>Get both tokens to the center to win.</li>
+                </ul>
+              </details>
+            </aside>
+          </div>
+        </section>
+
+        <section id="pong-panel" class="game-panel" hidden aria-label="Table Tennis">
+          <div class="panel pong-options">
+            <div class="field"><label for="pong-mode">Your opponent</label><select id="pong-mode"><option value="ai">The bot · solo play</option><option value="local">A friend · 2 players</option></select></div>
+            <div class="field"><label for="pong-difficulty">Bot difficulty</label><select id="pong-difficulty"><option value="easy">Easy</option><option value="normal" selected>Balanced</option><option value="hard">Hard</option></select></div>
+            <div class="field"><label for="pong-target">Play to</label><select id="pong-target"><option value="5">First to 5 points</option><option value="7">First to 7 points</option></select></div>
+            <button class="btn" id="pong-pause" disabled><svg class="icon" aria-hidden="true"><use href="#i-pause"></use></svg><span>Pause</span></button>
+          </div>
+          <div class="play-card pong-card">
+            <div class="pong-scoreboard">
+              <div class="pong-score-side left"><div class="pong-player-label"><span id="pong-left-name">You</span><small>LEFT COURT</small></div><strong id="pong-left-score">0</strong></div>
+              <div class="pong-score-middle"><div class="eyebrow" id="pong-target-label">FIRST TO 5</div><span id="pong-state-label">Ready to rally</span></div>
+              <div class="pong-score-side right"><div class="pong-player-label"><span id="pong-right-name">The bot</span><small>RIGHT COURT</small></div><strong id="pong-right-score">0</strong></div>
+            </div>
+            <div class="court-wrap">
+              <canvas id="pong-canvas" width="960" height="540" tabindex="0" aria-label="Pong court. Use W and S or Up and Down to move. On touch screens, drag your paddle."></canvas>
+              <div class="court-overlay" id="pong-overlay">
+                <div class="court-overlay-content">
+                  <div class="overlay-icon"><svg class="icon" aria-hidden="true"><use href="#i-bolt"></use></svg></div>
+                  <h2 id="pong-overlay-title">Meet your match.</h2>
+                  <p id="pong-overlay-description">A paddle, a ball, and a little friendly rivalry.<br>Ready to get into the swing of it?</p>
+                  <button class="btn btn-primary" id="pong-start"><svg class="icon" aria-hidden="true"><use href="#i-play"></use></svg><span>Start match</span></button>
+                </div>
+              </div>
+            </div>
+            <div class="pong-bottom">
+              <div class="pong-controls-note" id="pong-controls-note"></div>
+              <div id="pong-point" role="status">Drag on the court to play on touch screens.</div>
+            </div>
+          </div>
+          <p class="helper">Space to pause or resume. In two-player touch mode, each player drags on their half of the court. Changing a match option resets the score.</p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>A little friendly competition.</span>
+      <span class="footer-tag"><span class="dot"></span>Classic games. Fresh starts.</span>
+    </footer>
+  </div>
+
+  <dialog id="settings-dialog" aria-labelledby="settings-title">
+    <div class="modal-header"><h2 id="settings-title">Make yourself at home.</h2><button class="btn btn-quiet" data-close-dialog="settings-dialog" aria-label="Close settings"><svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg></button></div>
+    <p class="modal-description">Your room. Your rules. These settings are saved on this device.</p>
+    <label class="settings-row">
+      <span><strong>Sound effects</strong><small>A little extra arcade atmosphere.</small></span>
+      <span class="switch"><input type="checkbox" id="setting-sound"><span class="switch-track"></span></span>
+    </label>
+    <label class="settings-row">
+      <span><strong>Animations</strong><small>Turn off for reduced motion.<br>Live game movement stays on.</small></span>
+      <span class="switch"><input type="checkbox" id="setting-animations"><span class="switch-track"></span></span>
+    </label>
+    <div class="settings-note"><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg><span>No accounts, no tracking. Settings, your last game, and Tic Tac Toe scores stay in your browser.</span></div>
+    <button class="btn btn-primary btn-wide" data-close-dialog="settings-dialog">All set. Let's play.</button>
+  </dialog>
+
+  <dialog id="rules-dialog" aria-labelledby="rules-title">
+    <div class="modal-header"><h2 id="rules-title">The quick guide</h2><button class="btn btn-quiet" data-close-dialog="rules-dialog" aria-label="Close rules"><svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg></button></div>
+    <div class="rules-content" id="rules-content"></div>
+    <button class="btn btn-primary btn-wide" data-close-dialog="rules-dialog">Got it</button>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg><span></span></div>
+
+  <script>
+    "use strict";
+
+    const $ = id => document.getElementById(id);
+    const icon = name => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
+    const randomInt = max => Math.floor(Math.random() * max);
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+    const storage = {
+      read(key, fallback) {
+        try {
+          const value = localStorage.getItem("playroom." + key);
+          return value === null ? fallback : JSON.parse(value);
+        } catch (_) { return fallback; }
+      },
+      write(key, value) {
+        try { localStorage.setItem("playroom." + key, JSON.stringify(value)); }
+        catch (_) { /* Games also work when browser storage is unavailable. */ }
+      }
+    };
+
+    class SoundManager {
+      constructor(isEnabled) { this.isEnabled = isEnabled; this.context = null; }
+      play(type = "click") {
+        if (!this.isEnabled()) return;
+        try {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return;
+          if (!this.context) this.context = new AudioContextClass();
+          if (this.context.state === "suspended") this.context.resume().catch(() => {});
+          const sequences = {
+            click: [460], move: [420, 560], hit: [360], wall: [220],
+            dice: [240, 320, 270, 440], capture: [490, 300, 180],
+            point: [540, 720], draw: [420, 420], win: [523, 659, 784, 1047]
+          };
+          const notes = sequences[type] || sequences.click;
+          notes.forEach((frequency, index) => {
+            const oscillator = this.context.createOscillator();
+            const gain = this.context.createGain();
+            const start = this.context.currentTime + index * .075;
+            const duration = type === "win" ? .19 : .09;
+            oscillator.type = type === "hit" ? "triangle" : "sine";
+            oscillator.frequency.setValueAtTime(frequency, start);
+            gain.gain.setValueAtTime(0, start);
+            gain.gain.linearRampToValueAtTime(type === "wall" ? .018 : .045, start + .008);
+            gain.gain.exponentialRampToValueAtTime(.001, start + duration);
+            oscillator.connect(gain);
+            gain.connect(this.context.destination);
+            oscillator.start(start);
+            oscillator.stop(start + duration + .02);
+            oscillator.onended = () => { oscillator.disconnect(); gain.disconnect(); };
+          });
+        } catch (_) { /* Audio is optional. */ }
+      }
+    }
+
+    class TicTacToe {
+      static lines = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+      ];
+
+      constructor(app) {
+        this.app = app;
+        this.mode = "ai";
+        this.timer = null;
+        const saved = storage.read("ttt.scores", {});
+        this.scores = {};
+        ["X", "O", "draw"].forEach(key => {
+          this.scores[key] = Number.isSafeInteger(saved?.[key]) && saved[key] >= 0 ? saved[key] : 0;
+        });
+        this.cells = Array.from({ length: 9 }, (_, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "ttt-cell";
+          button.addEventListener("click", () => this.playCell(index));
+          $("ttt-board").append(button);
+          return button;
+        });
+        document.querySelectorAll("[data-ttt-mode]").forEach(button => {
+          button.addEventListener("click", () => {
+            if (this.mode === button.dataset.tttMode) return;
+            this.mode = button.dataset.tttMode;
+            this.app.sound.play("click");
+            this.reset();
+          });
+        });
+        $("ttt-difficulty").addEventListener("change", () => this.reset());
+        $("ttt-again").addEventListener("click", () => { this.app.sound.play("click"); this.reset(); });
+      }
+
+      activate() { this.reset(); }
+      deactivate() { clearTimeout(this.timer); }
+      reset() {
+        clearTimeout(this.timer);
+        this.board = Array(9).fill(null);
+        this.turn = "X";
+        this.result = null;
+        this.winningLine = null;
+        this.thinking = false;
+        this.render();
+      }
+
+      static evaluate(board) {
+        for (const line of TicTacToe.lines) {
+          const [a, b, c] = line;
+          if (board[a] && board[a] === board[b] && board[a] === board[c]) return { winner: board[a], line };
+        }
+        return board.every(Boolean) ? { winner: "draw", line: null } : null;
+      }
+
+      minimax(board, maximizing, depth) {
+        const outcome = TicTacToe.evaluate(board);
+        if (outcome) {
+          if (outcome.winner === "O") return 10 - depth;
+          if (outcome.winner === "X") return depth - 10;
+          return 0;
+        }
+        let best = maximizing ? -Infinity : Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (board[i]) continue;
+          board[i] = maximizing ? "O" : "X";
+          const value = this.minimax(board, !maximizing, depth + 1);
+          board[i] = null;
+          best = maximizing ? Math.max(best, value) : Math.min(best, value);
+        }
+        return best;
+      }
+
+      chooseAIMove() {
+        const open = this.board.map((value, index) => value ? -1 : index).filter(index => index >= 0);
+        if ($("ttt-difficulty").value === "easy") return open[randomInt(open.length)];
+        let best = -Infinity;
+        const moves = [];
+        for (const index of open) {
+          this.board[index] = "O";
+          const score = this.minimax(this.board, false, 0);
+          this.board[index] = null;
+          if (score > best) { best = score; moves.length = 0; moves.push(index); }
+          else if (score === best) moves.push(index);
+        }
+        return moves[randomInt(moves.length)];
+      }
+
+      playCell(index) {
+        if (this.result || this.thinking || this.board[index] || (this.mode === "ai" && this.turn === "O")) return;
+        this.place(index);
+        if (!this.result && this.mode === "ai") {
+          this.thinking = true;
+          this.render();
+          this.timer = setTimeout(() => {
+            this.thinking = false;
+            this.place(this.chooseAIMove());
+          }, this.app.settings.animations ? 420 : 100);
+        }
+      }
+
+      place(index) {
+        if (index === undefined || this.board[index] || this.result) return;
+        this.board[index] = this.turn;
+        const outcome = TicTacToe.evaluate(this.board);
+        if (outcome) {
+          this.result = outcome.winner;
+          this.winningLine = outcome.line;
+          this.scores[this.result]++;
+          storage.write("ttt.scores", this.scores);
+          this.app.sound.play(this.result === "draw" ? "draw" : "win");
+        } else {
+          this.turn = this.turn === "X" ? "O" : "X";
+          this.app.sound.play("move");
+        }
+        this.render();
+      }
+
+      render() {
+        this.cells.forEach((button, index) => {
+          const mark = this.board[index];
+          if (button.dataset.mark !== (mark || "")) {
+            button.innerHTML = mark ? icon(mark.toLowerCase()) : "";
+            button.dataset.mark = mark || "";
+          }
+          button.classList.toggle("o", mark === "O");
+          button.classList.toggle("winning", Boolean(this.winningLine?.includes(index)));
+          button.disabled = Boolean(mark || this.result || this.thinking);
+          button.setAttribute("aria-label", `Row ${Math.floor(index / 3) + 1}, column ${index % 3 + 1}: ${mark || "empty"}`);
+        });
+        document.querySelectorAll("[data-ttt-mode]").forEach(button => {
+          button.setAttribute("aria-pressed", String(button.dataset.tttMode === this.mode));
+        });
+        $("ttt-difficulty-field").hidden = this.mode !== "ai";
+        $("ttt-x-label").textContent = this.mode === "ai" ? "You" : "Player X";
+        $("ttt-o-label").textContent = this.mode === "ai" ? "The bot" : "Player O";
+        $("ttt-score-x").textContent = this.scores.X;
+        $("ttt-score-o").textContent = this.scores.O;
+        $("ttt-score-draw").textContent = this.scores.draw;
+        $("ttt-again").hidden = !this.result;
+
+        let label = this.mode === "ai" ? "You're up" : "Pass the board";
+        let title = this.mode === "ai" ? "Your move." : `${this.turn}’s move.`;
+        let description = this.mode === "ai" ? "You’re X. Find your next square." : `Player ${this.turn}, choose an empty square.`;
+        let mark = this.turn;
+        if (this.thinking) {
+          label = "A worthy opponent";
+          title = "The bot is thinking…";
+          description = "O is looking for an opening.";
+        } else if (this.result === "draw") {
+          label = "It's a draw";
+          title = "Great minds think alike.";
+          description = "Nobody gives an inch. Shall we try that again?";
+          mark = "draw";
+        } else if (this.result) {
+          label = this.mode === "ai" ? (this.result === "X" ? "You win" : "You lose") : "Round complete";
+          title = this.mode === "ai" ? (this.result === "X" ? "Nicely played!" : "The bot takes this one.") : `${this.result} takes the round!`;
+          description = "There’s always room for one more round.";
+          mark = this.result;
+        }
+        $("ttt-status-label").textContent = label;
+        $("ttt-status").textContent = title;
+        $("ttt-description").textContent = description;
+        $("ttt-round-state").textContent = this.result ? "Round complete" : this.thinking ? "Thinking…" : "Round in play";
+        $("ttt-turn-icon").innerHTML = icon(mark === "draw" ? "users" : mark.toLowerCase());
+        $("ttt-turn-icon").style.color = `var(--${mark === "O" ? "accent" : mark === "draw" ? "muted" : "primary"})`;
+        $("ttt-win-line").toggleAttribute("hidden", !this.winningLine);
+        if (this.winningLine) {
+          const first = this.winningLine[0], last = this.winningLine[2];
+          const centers = [48, 150, 252];
+          const line = $("ttt-win-line").querySelector("line");
+          line.setAttribute("x1", centers[first % 3]);
+          line.setAttribute("y1", centers[Math.floor(first / 3)]);
+          line.setAttribute("x2", centers[last % 3]);
+          line.setAttribute("y2", centers[Math.floor(last / 3)]);
+        }
+      }
+    }
+
+    const LUDO_PLAYERS = [
+      { name: "Violet", color: "var(--primary)", start: 0, home: [0,0], tokens: [[2,2],[3,3]], lane: [[1,7],[2,7],[3,7],[4,7],[5,7]] },
+      { name: "Cyan", color: "var(--accent)", start: 13, home: [9,0], tokens: [[11,2],[12,3]], lane: [[7,1],[7,2],[7,3],[7,4],[7,5]] },
+      { name: "Mint", color: "var(--secondary)", start: 26, home: [9,9], tokens: [[11,11],[12,12]], lane: [[13,7],[12,7],[11,7],[10,7],[9,7]] },
+      { name: "Coral", color: "var(--danger)", start: 39, home: [0,9], tokens: [[2,11],[3,12]], lane: [[7,13],[7,12],[7,11],[7,10],[7,9]] }
+    ];
+    const LUDO_TRACK = [
+      [1,6],[2,6],[3,6],[4,6],[5,6],
+      [6,5],[6,4],[6,3],[6,2],[6,1],[6,0],[7,0],[8,0],
+      [8,1],[8,2],[8,3],[8,4],[8,5],
+      [9,6],[10,6],[11,6],[12,6],[13,6],[14,6],[14,7],[14,8],
+      [13,8],[12,8],[11,8],[10,8],[9,8],
+      [8,9],[8,10],[8,11],[8,12],[8,13],[8,14],[7,14],[6,14],
+      [6,13],[6,12],[6,11],[6,10],[6,9],
+      [5,8],[4,8],[3,8],[2,8],[1,8],[0,8],[0,7],[0,6]
+    ];
+    const LUDO_SAFE = [0,13,26,39];
+
+    function positionLudoToken(element, x, y) {
+      element.style.left = `${(x + .5) / 15 * 100}%`;
+      element.style.top = `${(y + .5) / 15 * 100}%`;
+    }
+
+    function buildLudoBoard(container, activePlayers, preview = false) {
+      container.replaceChildren();
+      const putCell = (x, y, className, color, text = "") => {
+        const cell = document.createElement("div");
+        cell.className = className;
+        cell.style.gridColumn = String(x + 1);
+        cell.style.gridRow = String(y + 1);
+        if (color) cell.style.setProperty("--player-color", color);
+        cell.textContent = text;
+        container.append(cell);
+      };
+      LUDO_TRACK.forEach(([x,y], index) => {
+        const owner = LUDO_PLAYERS.find(player => player.start === index);
+        putCell(x, y, "ludo-cell" + (owner ? " safe" : ""), owner?.color, owner ? "★" : "");
+      });
+      LUDO_PLAYERS.forEach((player, index) => {
+        const home = document.createElement("div");
+        home.className = "ludo-home" + (activePlayers.includes(index) ? "" : " inactive");
+        home.style.setProperty("--player-color", player.color);
+        home.style.gridColumn = `${player.home[0] + 1} / span 6`;
+        home.style.gridRow = `${player.home[1] + 1} / span 6`;
+        container.append(home);
+        player.lane.forEach(([x,y]) => putCell(x, y, "ludo-cell lane", player.color));
+      });
+      const center = document.createElement("div");
+      center.className = "ludo-center";
+      center.innerHTML = `<svg viewBox="0 0 60 60" aria-hidden="true">
+        <path d="M0 0 30 30 0 60Z" fill="var(--primary)"/>
+        <path d="M0 0 60 0 30 30Z" fill="var(--accent)"/>
+        <path d="M60 0 60 60 30 30Z" fill="var(--secondary)"/>
+        <path d="M0 60 60 60 30 30Z" fill="var(--danger)"/>
+        </svg><span aria-hidden="true">★</span>`;
+      container.append(center);
+      const layer = document.createElement("div");
+      layer.className = "ludo-tokens";
+      container.append(layer);
+      if (preview) {
+        LUDO_PLAYERS.forEach(player => {
+          player.tokens.forEach(([x,y]) => {
+            const token = document.createElement("span");
+            token.className = "ludo-token";
+            token.style.setProperty("--player-color", player.color);
+            positionLudoToken(token, x, y);
+            layer.append(token);
+          });
+        });
+      }
+      return layer;
+    }
+
+    class Ludo {
+      constructor(app) {
+        this.app = app;
+        this.mode = "local";
+        this.active = false;
+        this.timer = null;
+        this.interval = null;
+        this.pending = null;
+
+        document.querySelectorAll("[data-ludo-mode]").forEach(button => {
+          button.addEventListener("click", () => {
+            if (this.mode === button.dataset.ludoMode) return;
+            this.mode = button.dataset.ludoMode;
+            this.app.sound.play("click");
+            this.reset();
+          });
+        });
+        $("ludo-count").addEventListener("change", () => this.reset());
+        $("ludo-six").addEventListener("change", () => this.reset());
+        $("ludo-roll").addEventListener("click", () => this.roll());
+        $("ludo-again").addEventListener("click", () => { this.app.sound.play("click"); this.reset(); });
+        document.addEventListener("visibilitychange", () => {
+          if (!this.active) return;
+          if (document.hidden) this.suspend();
+          else this.resume();
+        });
+      }
+
+      activate() {
+        this.active = true;
+        this.reset();
+      }
+
+      deactivate() {
+        this.active = false;
+        this.clearAsync();
+      }
+
+      clearAsync() {
+        clearTimeout(this.timer);
+        this.timer = null;
+        this.pending = null;
+        this.stopDiceAnimation();
+      }
+
+      reset() {
+        this.clearAsync();
+        const count = Number($("ludo-count").value);
+        this.players = count === 2 ? [0,2] : count === 3 ? [0,1,2] : [0,1,2,3];
+        this.needsSix = $("ludo-six").checked;
+        // -1 = yard; 0..50 = shared track; 51..55 = private lane; 56 = home.
+        this.tokens = Array.from({ length: 4 }, () => [-1,-1]);
+        this.turn = 0;
+        this.dice = 0;
+        this.phase = "roll";
+        this.winner = null;
+        this.message = this.mode === "ai"
+          ? "You’re Violet. Roll the dice to begin!"
+          : "Roll the dice. Your first move awaits.";
+        this.layer = buildLudoBoard($("ludo-board"), this.players);
+        this.render();
+      }
+
+      get currentPlayer() { return this.players[this.turn]; }
+
+      isRobot(playerIndex = this.currentPlayer) {
+        return this.mode === "ai" && playerIndex !== this.players[0];
+      }
+
+      blocked() {
+        return !this.active || document.hidden || this.app.modalOpen();
+      }
+
+      // One cancellable, resumable step at a time. Robot turns cannot leak into
+      // a reset match, run after navigation, or advance behind an open dialog.
+      schedule(callback, delay) {
+        clearTimeout(this.timer);
+        this.timer = null;
+        this.pending = { callback, remaining: delay, started: 0 };
+        this.resume();
+      }
+
+      suspend() {
+        if (this.timer !== null) {
+          clearTimeout(this.timer);
+          this.timer = null;
+          if (this.pending) {
+            this.pending.remaining = Math.max(0, this.pending.remaining - (performance.now() - this.pending.started));
+          }
+        }
+        this.stopDiceAnimation();
+      }
+
+      resume() {
+        if (this.blocked()) return;
+        if (this.phase === "rolling") this.startDiceAnimation();
+        if (!this.pending || this.timer !== null) return;
+        const task = this.pending;
+        task.started = performance.now();
+        this.timer = setTimeout(() => {
+          this.timer = null;
+          if (this.pending !== task || !this.active) return;
+          if (this.blocked()) {
+            task.remaining = 0;
+            return;
+          }
+          this.pending = null;
+          task.callback();
+        }, task.remaining);
+      }
+
+      startDiceAnimation() {
+        const animate = this.app.settings.animations && !this.blocked();
+        $("ludo-dice").classList.toggle("rolling", animate);
+        if (animate && this.interval === null) {
+          this.interval = setInterval(() => this.paintDice(randomInt(6) + 1), 75);
+        }
+      }
+
+      stopDiceAnimation() {
+        clearInterval(this.interval);
+        this.interval = null;
+        $("ludo-dice").classList.remove("rolling");
+      }
+
+      queueRobotTurn() {
+        if (this.active && this.phase === "roll" && this.isRobot()) {
+          this.schedule(() => this.roll(true), this.app.settings.animations ? 750 : 350);
+        }
+      }
+
+      validMoves() {
+        if (this.phase !== "move") return [];
+        return this.tokens[this.currentPlayer]
+          .map((position, index) => position < 56 && (position >= 0 || !this.needsSix || this.dice === 6) ? index : -1)
+          .filter(index => index >= 0);
+      }
+
+      paintDice(value) {
+        const patterns = {
+          0: [4], 1: [4], 2: [0,8], 3: [0,4,8],
+          4: [0,2,6,8], 5: [0,2,4,6,8], 6: [0,2,3,5,6,8]
+        };
+        const dice = $("ludo-dice");
+        Array.from(dice.children).forEach((pip, index) => {
+          pip.style.visibility = patterns[value].includes(index) ? "visible" : "hidden";
+          pip.style.opacity = value === 0 ? ".2" : "1";
+        });
+        dice.setAttribute("aria-label", value ? `Dice result: ${value}` : "Dice not rolled");
+      }
+
+      roll(automated = false) {
+        if (this.blocked() || this.phase !== "roll" || this.isRobot() !== automated) return;
+        this.phase = "rolling";
+        this.message = this.isRobot() ? "The robot is rolling the dice…" : "A little luck goes a long way…";
+        this.app.sound.play("dice");
+        this.render();
+        this.schedule(() => {
+          this.stopDiceAnimation();
+          // Human players and robots use exactly the same fair roll.
+          this.dice = randomInt(6) + 1;
+          this.phase = "move";
+          const valid = this.validMoves();
+          if (valid.length) {
+            this.message = this.isRobot()
+              ? `Rolled a ${this.dice}. The robot is choosing a token…`
+              : `Rolled a ${this.dice}. Tap a glowing token.`;
+            this.render();
+            if (this.isRobot()) {
+              this.schedule(() => this.move(this.chooseRobotMove(), true), this.app.settings.animations ? 700 : 350);
+            }
+          } else {
+            this.phase = "waiting";
+            this.message = `A ${this.dice}, but no moves. Passing the dice…`;
+            this.render();
+            this.schedule(() => this.nextTurn(false), 950);
+          }
+        }, this.app.settings.animations ? 650 : 150);
+      }
+
+      // Estimate whether an opponent can capture this square on its next roll.
+      dangerAt(playerIndex, position) {
+        if (position < 0 || position > 50) return 0;
+        const square = (LUDO_PLAYERS[playerIndex].start + position) % 52;
+        if (LUDO_SAFE.includes(square)) return 0;
+        let danger = 0;
+        this.players.forEach(opponent => {
+          if (opponent === playerIndex) return;
+          this.tokens[opponent].forEach(opponentPosition => {
+            if (opponentPosition < 0 || opponentPosition > 50) return;
+            const opponentSquare = (LUDO_PLAYERS[opponent].start + opponentPosition) % 52;
+            const distance = (square - opponentSquare + 52) % 52;
+            if (distance >= 1 && distance <= 6 && opponentPosition + distance <= 50) {
+              danger += 7 - distance;
+            }
+          });
+        });
+        return danger;
+      }
+
+      // Prefer finishing and captures, then safe squares, releasing tokens,
+      // escaping threats, and forward progress. No hidden information is used.
+      chooseRobotMove() {
+        const moves = this.validMoves();
+        const playerIndex = this.currentPlayer;
+        let chosen = moves[0];
+        let bestScore = -Infinity;
+        moves.forEach(index => {
+          const oldPosition = this.tokens[playerIndex][index];
+          const nextPosition = oldPosition === -1 ? 0 : Math.min(56, oldPosition + this.dice);
+          let score = nextPosition * .35 + Math.random() * 2;
+          if (oldPosition === -1) score += 35;
+          if (nextPosition === 56) {
+            score += 1000;
+          } else if (nextPosition > 50) {
+            score += 40;
+          } else {
+            const square = (LUDO_PLAYERS[playerIndex].start + nextPosition) % 52;
+            const safe = LUDO_SAFE.includes(square);
+            if (safe) {
+              score += 18;
+            } else {
+              this.players.forEach(opponent => {
+                if (opponent === playerIndex) return;
+                this.tokens[opponent].forEach(position => {
+                  if (position >= 0 && position <= 50 &&
+                      (LUDO_PLAYERS[opponent].start + position) % 52 === square) {
+                    score += 95;
+                  }
+                });
+              });
+            }
+            score -= this.dangerAt(playerIndex, nextPosition) * 4;
+            if (this.tokens[playerIndex][1 - index] === nextPosition) score -= safe ? 2 : 9;
+          }
+          score += this.dangerAt(playerIndex, oldPosition) * 2;
+          if (score > bestScore) {
+            bestScore = score;
+            chosen = index;
+          }
+        });
+        return chosen;
+      }
+
+      move(index, automated = false) {
+        if (this.blocked() || this.isRobot() !== automated || !this.validMoves().includes(index)) return;
+        const playerIndex = this.currentPlayer;
+        const oldPosition = this.tokens[playerIndex][index];
+        const nextPosition = oldPosition === -1 ? 0 : Math.min(56, oldPosition + this.dice);
+        this.tokens[playerIndex][index] = nextPosition;
+        this.phase = "waiting";
+        let captured = false;
+
+        if (nextPosition <= 50) {
+          const trackIndex = (LUDO_PLAYERS[playerIndex].start + nextPosition) % 52;
+          if (!LUDO_SAFE.includes(trackIndex)) {
+            this.players.forEach(opponent => {
+              if (opponent === playerIndex) return;
+              this.tokens[opponent].forEach((position, tokenIndex) => {
+                if (position >= 0 && position <= 50 &&
+                    (LUDO_PLAYERS[opponent].start + position) % 52 === trackIndex) {
+                  this.tokens[opponent][tokenIndex] = -1;
+                  captured = true;
+                }
+              });
+            });
+          }
+        }
+
+        const finished = this.tokens[playerIndex].filter(position => position === 56).length;
+        if (finished === 2) {
+          this.phase = "over";
+          this.winner = playerIndex;
+          this.message = this.mode === "ai"
+            ? (this.isRobot() ? "The robot brought both tokens home. Ready for a rematch?" : "Both your tokens made it home. Nicely played!")
+            : "Both tokens made it home. A well-earned victory!";
+          this.app.sound.play("win");
+          this.render();
+          return;
+        }
+
+        const actor = this.isRobot() ? "The robot" : this.mode === "ai" ? "You" : LUDO_PLAYERS[playerIndex].name;
+        this.message = captured ? `${actor} captured a rival! Back to the yard.`
+          : nextPosition === 56 ? `${actor} brought a token home!`
+          : this.dice === 6 ? `${actor} moved token ${index + 1}. A six earns another turn!`
+          : `${actor} moved token ${index + 1}. Passing the dice…`;
+        this.app.sound.play(captured ? "capture" : nextPosition === 56 ? "point" : "move");
+        this.render();
+        const extraTurn = this.dice === 6;
+        this.schedule(() => this.nextTurn(extraTurn), this.app.settings.animations ? 900 : 500);
+      }
+
+      nextTurn(extraTurn) {
+        if (this.phase === "over" || !this.active) return;
+        if (!extraTurn) this.turn = (this.turn + 1) % this.players.length;
+        this.phase = "roll";
+        this.dice = 0;
+        this.message = this.isRobot()
+          ? (extraTurn ? "A six earns another turn. The robot will roll again." : "The robot is getting ready to roll…")
+          : (extraTurn ? "A six earns another turn. Roll again!" : "Roll the dice to make your move.");
+        this.render();
+        this.queueRobotTurn();
+      }
+
+      render() {
+        const current = LUDO_PLAYERS[this.currentPlayer];
+        const robot = this.isRobot();
+        document.querySelectorAll("[data-ludo-mode]").forEach(button => {
+          button.setAttribute("aria-pressed", String(button.dataset.ludoMode === this.mode));
+        });
+        $("ludo-mode-note").textContent = this.mode === "ai"
+          ? "You play Violet. AI robots roll and move automatically."
+          : "Pass the dice. Everyone shares this device.";
+        const robotCount = this.players.length - 1;
+        $("ludo-play-mode").textContent = this.mode === "ai"
+          ? `You vs. ${robotCount} robot${robotCount === 1 ? "" : "s"}`
+          : "Local multiplayer";
+        $("ludo-count-label").textContent = this.mode === "ai" ? "Players, including you" : "Players on this device";
+        Array.from($("ludo-count").options).forEach(option => {
+          const count = Number(option.value);
+          option.textContent = this.mode === "ai"
+            ? `You + ${count - 1} robot${count === 2 ? "" : "s"}${count === 2 ? " · opposite corners" : ""}`
+            : `${count} players${count === 2 ? " · opposite corners" : count === 4 ? " · a full house" : ""}`;
+        });
+
+        let turnText = this.mode === "ai"
+          ? (robot ? `${current.name} · robot’s turn` : "Your turn · Violet")
+          : `${current.name}’s turn`;
+        if (this.winner !== null) {
+          turnText = this.mode === "ai"
+            ? (robot ? `${current.name}’s robot wins!` : "You win!")
+            : `${current.name} wins!`;
+        }
+        $("ludo-turn").textContent = turnText;
+        $("ludo-turn").style.color = current.color;
+        $("ludo-message").textContent = this.message;
+        $("ludo-roll").disabled = this.phase !== "roll" || robot || !this.active;
+        $("ludo-roll").hidden = this.phase === "over";
+        $("ludo-roll").innerHTML = robot
+          ? icon("cpu") + `<span>${this.phase === "rolling" ? "Rolling…" : "Robot’s turn"}</span>`
+          : icon("bolt") + "<span>Roll dice</span>";
+        $("ludo-again").hidden = this.phase !== "over";
+        $("ludo-dice").classList.toggle("rolling", this.phase === "rolling" && this.app.settings.animations && !this.blocked());
+        this.paintDice(this.dice);
+
+        const valid = this.validMoves();
+        const entries = [];
+        this.players.forEach(playerIndex => {
+          const player = LUDO_PLAYERS[playerIndex];
+          this.tokens[playerIndex].forEach((position, tokenIndex) => {
+            if (position === 56) return;
+            let coordinates;
+            if (position === -1) coordinates = player.tokens[tokenIndex];
+            else if (position <= 50) coordinates = LUDO_TRACK[(player.start + position) % 52];
+            else coordinates = player.lane[position - 51];
+            entries.push({ playerIndex, tokenIndex, position, x: coordinates[0], y: coordinates[1] });
+          });
+        });
+
+        this.layer.replaceChildren();
+        const groups = new Map();
+        entries.forEach(entry => {
+          const key = `${entry.x},${entry.y}`;
+          if (!groups.has(key)) groups.set(key, []);
+          groups.get(key).push(entry);
+        });
+        groups.forEach(group => {
+          group.forEach((entry, offset) => {
+            const player = LUDO_PLAYERS[entry.playerIndex];
+            const eligible = entry.playerIndex === this.currentPlayer && valid.includes(entry.tokenIndex);
+            const movable = eligible && !robot;
+            const token = document.createElement("button");
+            token.type = "button";
+            token.className = "ludo-token" + (movable ? " movable" : eligible && robot ? " robot-ready" : "");
+            token.style.setProperty("--player-color", player.color);
+            token.textContent = String(entry.tokenIndex + 1);
+            token.disabled = !movable;
+            token.setAttribute("aria-label",
+              `${player.name}${this.isRobot(entry.playerIndex) ? " robot" : ""} token ${entry.tokenIndex + 1}, ${entry.position === -1 ? "in starting yard" : entry.position > 50 ? "in home lane" : "on track"}${movable ? ", available to move" : ""}`);
+            let dx = 0, dy = 0;
+            if (group.length > 1) {
+              const angle = offset / group.length * Math.PI * 2;
+              dx = Math.cos(angle) * .19;
+              dy = Math.sin(angle) * .19;
+            }
+            positionLudoToken(token, entry.x + dx, entry.y + dy);
+            token.addEventListener("click", () => this.move(entry.tokenIndex));
+            this.layer.append(token);
+          });
+        });
+
+        $("ludo-players").innerHTML = this.players.map(playerIndex => {
+          const player = LUDO_PLAYERS[playerIndex];
+          const finished = this.tokens[playerIndex].filter(position => position === 56).length;
+          const role = this.mode === "ai"
+            ? `<span class="player-role">${this.isRobot(playerIndex) ? icon("cpu") + "Robot" : "You"}</span>`
+            : "";
+          return `<div class="player-row ${playerIndex === this.currentPlayer ? "active" : ""}" style="--player-color:${player.color}">
+            <span class="player-color"></span>
+            <div class="player-details"><strong><span>${player.name}${playerIndex === this.winner ? " · winner" : ""}</span>${role}</strong><small>${finished} of 2 tokens finished</small></div>
+            <span class="finished-dots" aria-hidden="true"><i class="${finished > 0 ? "filled" : ""}"></i><i class="${finished > 1 ? "filled" : ""}"></i></span>
+          </div>`;
+        }).join("");
+      }
+    }
+
+    class Pong {
+      constructor(app) {
+        this.app = app;
+        this.canvas = $("pong-canvas");
+        this.ctx = this.canvas.getContext("2d");
+        this.width = 960;
+        this.height = 540;
+        this.paddleWidth = 14;
+        this.paddleHeight = 98;
+        this.keys = new Set();
+        this.pointers = new Map();
+        this.active = false;
+        this.frame = null;
+        this.state = "ready";
+        const theme = getComputedStyle(document.documentElement);
+        this.colors = Object.fromEntries(["bg","surface","surface-2","text","muted","primary","accent","border"].map(name => [name, theme.getPropertyValue("--" + name).trim()]));
+
+        ["pong-mode", "pong-difficulty", "pong-target"].forEach(id => {
+          $(id).addEventListener("change", () => this.reset());
+        });
+        $("pong-start").addEventListener("click", () => this.startOrResume());
+        $("pong-pause").addEventListener("click", () => this.togglePause());
+        window.addEventListener("keydown", event => this.keyDown(event));
+        window.addEventListener("keyup", event => this.keys.delete(event.key.toLowerCase()));
+        window.addEventListener("blur", () => { this.keys.clear(); this.pause(); });
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) { this.keys.clear(); this.pause(); }
+        });
+        this.canvas.addEventListener("pointerdown", event => {
+          if (!this.active || this.state !== "playing") return;
+          event.preventDefault();
+          const box = this.canvas.getBoundingClientRect();
+          const side = this.mode === "local" && event.clientX - box.left > box.width / 2 ? "right" : "left";
+          this.pointers.set(event.pointerId, side);
+          this.canvas.setPointerCapture(event.pointerId);
+          this.movePointer(event);
+        });
+        this.canvas.addEventListener("pointermove", event => this.movePointer(event));
+        ["pointerup", "pointercancel", "lostpointercapture"].forEach(name => {
+          this.canvas.addEventListener(name, event => this.pointers.delete(event.pointerId));
+        });
+        if ("ResizeObserver" in window) {
+          this.resizeObserver = new ResizeObserver(() => this.resize());
+          this.resizeObserver.observe(this.canvas);
+        } else {
+          window.addEventListener("resize", () => this.resize());
+        }
+      }
+
+      activate() {
+        this.active = true;
+        this.reset();
+        this.resize();
+        this.lastTime = 0;
+        cancelAnimationFrame(this.frame);
+        this.frame = requestAnimationFrame(time => this.tick(time));
+      }
+
+      deactivate() {
+        this.active = false;
+        this.keys.clear();
+        this.pointers.clear();
+        cancelAnimationFrame(this.frame);
+        if (this.state === "playing") this.state = "paused";
+      }
+
+      reset() {
+        this.keys.clear();
+        this.pointers.clear();
+        this.mode = $("pong-mode").value;
+        this.difficulty = $("pong-difficulty").value;
+        this.target = Number($("pong-target").value);
+        $("pong-difficulty").disabled = this.mode === "local";
+        this.left = { x: 29, y: (this.height - this.paddleHeight) / 2, score: 0 };
+        this.right = { x: this.width - 29 - this.paddleWidth, y: (this.height - this.paddleHeight) / 2, score: 0 };
+        this.state = "ready";
+        this.aiClock = 0;
+        this.aiTarget = this.height / 2;
+        this.serveBall(Math.random() < .5 ? -1 : 1);
+        $("pong-point").textContent = "Drag on the court to play on touch screens.";
+        this.updateUI();
+        this.draw();
+      }
+
+      serveBall(direction) {
+        const angle = (Math.random() - .5) * .8;
+        this.ball = {
+          x: this.width / 2, y: this.height / 2, radius: 8, speed: 365,
+          vx: direction * 365 * Math.cos(angle), vy: 365 * Math.sin(angle)
+        };
+        this.trail = [];
+        this.serveTime = 1;
+      }
+
+      startOrResume() {
+        if (!this.active || this.app.modalOpen()) return;
+        if (this.state === "over") this.reset();
+        if (this.state !== "ready" && this.state !== "paused") return;
+        this.state = "playing";
+        this.keys.clear();
+        this.app.sound.play("click");
+        $("pong-point").textContent = `First to ${this.target}. Make every rally count.`;
+        this.updateUI();
+        this.canvas.focus({ preventScroll: true });
+      }
+
+      pause() {
+        if (!this.active || this.state !== "playing") return;
+        this.state = "paused";
+        this.keys.clear();
+        this.pointers.clear();
+        this.updateUI();
+      }
+
+      togglePause() {
+        if (this.state === "playing") { this.pause(); this.app.sound.play("click"); }
+        else if (this.state === "paused") this.startOrResume();
+      }
+
+      keyDown(event) {
+        if (!this.active || this.app.modalOpen()) return;
+        const tag = event.target.tagName;
+        if (["INPUT","SELECT","TEXTAREA"].includes(tag)) return;
+        const key = event.key.toLowerCase();
+        if (["w","s","arrowup","arrowdown"].includes(key)) {
+          event.preventDefault();
+          this.keys.add(key);
+        } else if (key === " " && tag !== "BUTTON") {
+          event.preventDefault();
+          if (!event.repeat) this.togglePause();
+        }
+      }
+
+      movePointer(event) {
+        const side = this.pointers.get(event.pointerId);
+        if (!side || this.state !== "playing") return;
+        event.preventDefault();
+        const box = this.canvas.getBoundingClientRect();
+        const y = (event.clientY - box.top) / box.height * this.height;
+        this[side].y = clamp(y - this.paddleHeight / 2, 8, this.height - this.paddleHeight - 8);
+      }
+
+      resize() {
+        if (!this.active || !this.ball) return;
+        const box = this.canvas.getBoundingClientRect();
+        if (!box.width || !box.height) return;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        this.canvas.width = Math.round(box.width * dpr);
+        this.canvas.height = Math.round(box.height * dpr);
+        this.draw();
+      }
+
+      tick(time) {
+        if (!this.active) return;
+        const dt = this.lastTime ? Math.min((time - this.lastTime) / 1000, .033) : 0;
+        this.lastTime = time;
+        if (this.state === "playing") this.update(dt);
+        this.draw();
+        this.frame = requestAnimationFrame(nextTime => this.tick(nextTime));
+      }
+
+      update(dt) {
+        const playerSpeed = 490;
+        const upLeft = this.keys.has("w") || (this.mode === "ai" && this.keys.has("arrowup"));
+        const downLeft = this.keys.has("s") || (this.mode === "ai" && this.keys.has("arrowdown"));
+        this.left.y += (Number(downLeft) - Number(upLeft)) * playerSpeed * dt;
+
+        if (this.mode === "local") {
+          this.right.y += (Number(this.keys.has("arrowdown")) - Number(this.keys.has("arrowup"))) * playerSpeed * dt;
+        } else {
+          const profiles = {
+            easy: { speed: 215, reaction: .25, error: 55 },
+            normal: { speed: 325, reaction: .13, error: 25 },
+            hard: { speed: 440, reaction: .065, error: 9 }
+          };
+          const ai = profiles[this.difficulty];
+          this.aiClock -= dt;
+          if (this.aiClock <= 0) {
+            this.aiClock = ai.reaction;
+            let target = this.height / 2;
+            if (this.ball.vx > 0) {
+              target = this.ball.y;
+              if (this.difficulty !== "easy") {
+                const travel = Math.max(0, (this.right.x - this.ball.x) / this.ball.vx);
+                let projected = this.ball.y + this.ball.vy * travel;
+                const span = this.height - 2 * this.ball.radius;
+                projected = ((projected - this.ball.radius) % (span * 2) + span * 2) % (span * 2);
+                target = this.ball.radius + (projected > span ? span * 2 - projected : projected);
+              }
+            }
+            this.aiTarget = target + (Math.random() - .5) * ai.error * 2;
+          }
+          const distance = this.aiTarget - (this.right.y + this.paddleHeight / 2);
+          this.right.y += clamp(distance, -ai.speed * dt, ai.speed * dt);
+        }
+        this.left.y = clamp(this.left.y, 8, this.height - this.paddleHeight - 8);
+        this.right.y = clamp(this.right.y, 8, this.height - this.paddleHeight - 8);
+        if (this.serveTime > 0) {
+          this.serveTime -= dt;
+          return;
+        }
+
+        if (this.app.settings.animations) {
+          this.trail.push({ x: this.ball.x, y: this.ball.y });
+          if (this.trail.length > 9) this.trail.shift();
+        } else this.trail = [];
+
+        const steps = Math.max(1, Math.ceil(this.ball.speed * dt / 7));
+        for (let step = 0; step < steps; step++) {
+          if (this.stepBall(dt / steps)) break;
+        }
+      }
+
+      stepBall(dt) {
+        const ball = this.ball;
+        ball.x += ball.vx * dt;
+        ball.y += ball.vy * dt;
+        if (ball.y - ball.radius < 0) {
+          ball.y = ball.radius;
+          ball.vy = Math.abs(ball.vy);
+          this.app.sound.play("wall");
+        } else if (ball.y + ball.radius > this.height) {
+          ball.y = this.height - ball.radius;
+          ball.vy = -Math.abs(ball.vy);
+          this.app.sound.play("wall");
+        }
+        for (const [paddle, direction] of [[this.left,1],[this.right,-1]]) {
+          const approaching = direction === 1 ? ball.vx < 0 : ball.vx > 0;
+          if (approaching &&
+              ball.x + ball.radius >= paddle.x &&
+              ball.x - ball.radius <= paddle.x + this.paddleWidth &&
+              ball.y + ball.radius >= paddle.y &&
+              ball.y - ball.radius <= paddle.y + this.paddleHeight) {
+            const relative = clamp((ball.y - paddle.y - this.paddleHeight / 2) / (this.paddleHeight / 2), -1, 1);
+            const angle = relative * 1.02;
+            ball.speed = Math.min(840, ball.speed + 25);
+            ball.vx = direction * ball.speed * Math.cos(angle);
+            ball.vy = ball.speed * Math.sin(angle);
+            ball.x = direction === 1 ? paddle.x + this.paddleWidth + ball.radius + .1 : paddle.x - ball.radius - .1;
+            this.app.sound.play("hit");
+          }
+        }
+        if (ball.x < -ball.radius * 2) { this.scorePoint("right"); return true; }
+        if (ball.x > this.width + ball.radius * 2) { this.scorePoint("left"); return true; }
+        return false;
+      }
+
+      scorePoint(side) {
+        this[side].score++;
+        const name = side === "left" ? (this.mode === "ai" ? "you" : "Player 1") : (this.mode === "ai" ? "the bot" : "Player 2");
+        $("pong-point").textContent = `Point to ${name}. ${this.left.score} – ${this.right.score}`;
+        this.serveBall(side === "left" ? 1 : -1);
+        if (this[side].score >= this.target) {
+          this.state = "over";
+          this.keys.clear();
+          this.pointers.clear();
+          this.app.sound.play("win");
+        } else this.app.sound.play("point");
+        this.updateUI();
+      }
+
+      updateUI() {
+        $("pong-left-score").textContent = this.left.score;
+        $("pong-right-score").textContent = this.right.score;
+        $("pong-left-name").textContent = this.mode === "ai" ? "You" : "Player 1";
+        $("pong-right-name").textContent = this.mode === "ai" ? "The bot" : "Player 2";
+        $("pong-target-label").textContent = `FIRST TO ${this.target}`;
+        $("pong-state-label").textContent = ({ ready: "Ready to rally", playing: "Match in play", paused: "Taking a break", over: "Match complete" })[this.state];
+        $("pong-overlay").hidden = this.state === "playing";
+        $("pong-pause").disabled = !["playing","paused"].includes(this.state);
+        $("pong-pause").innerHTML = icon(this.state === "paused" ? "play" : "pause") + `<span>${this.state === "paused" ? "Resume" : "Pause"}</span>`;
+        $("pong-controls-note").innerHTML = this.mode === "ai"
+          ? `<kbd>W</kbd><kbd>S</kbd><span>or</span><kbd>↑</kbd><kbd>↓</kbd><span>to move · drag to play</span>`
+          : `<span>P1</span><kbd>W</kbd><kbd>S</kbd><span>· P2</span><kbd>↑</kbd><kbd>↓</kbd><span>· or drag your half</span>`;
+
+        let title = "Meet your match.";
+        let description = "A paddle, a ball, and a little friendly rivalry.<br>Ready to get into the swing of it?";
+        let button = "Start match";
+        if (this.state === "paused") {
+          title = "Take a breather.";
+          description = "The rally can wait. Pick up right where you left off.";
+          button = "Resume match";
+        } else if (this.state === "over") {
+          const leftWon = this.left.score >= this.target;
+          title = this.mode === "ai"
+            ? (leftWon ? "You take the match!" : "The bot wins this one.")
+            : `Player ${leftWon ? "1" : "2"} takes the match!`;
+          description = `Final score: ${this.left.score} – ${this.right.score}.<br>How about a rematch?`;
+          button = "Play again";
+        }
+        $("pong-overlay-title").textContent = title;
+        $("pong-overlay-description").innerHTML = description;
+        $("pong-start").innerHTML = icon(this.state === "over" ? "reset" : "play") + `<span>${button}</span>`;
+      }
+
+      roundedRect(x, y, width, height, radius) {
+        const ctx = this.ctx;
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.arcTo(x + width, y, x + width, y + height, radius);
+        ctx.arcTo(x + width, y + height, x, y + height, radius);
+        ctx.arcTo(x, y + height, x, y, radius);
+        ctx.arcTo(x, y, x + width, y, radius);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      draw() {
+        if (!this.ball || !this.canvas.width) return;
+        const ctx = this.ctx, colors = this.colors;
+        ctx.setTransform(this.canvas.width / this.width, 0, 0, this.canvas.height / this.height, 0, 0);
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, this.width, this.height);
+        ctx.strokeStyle = colors.muted;
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = .06;
+        ctx.beginPath();
+        for (let x = 60; x < this.width; x += 60) { ctx.moveTo(x, 0); ctx.lineTo(x, this.height); }
+        for (let y = 60; y < this.height; y += 60) { ctx.moveTo(0, y); ctx.lineTo(this.width, y); }
+        ctx.stroke();
+        ctx.globalAlpha = .32;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([9, 13]);
+        ctx.beginPath();
+        ctx.moveTo(this.width / 2, 18);
+        ctx.lineTo(this.width / 2, this.height - 18);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.globalAlpha = 1;
+
+        for (const [paddle, color] of [[this.left, colors.primary],[this.right, colors.accent]]) {
+          ctx.fillStyle = color;
+          if (this.app.settings.animations) { ctx.shadowColor = color; ctx.shadowBlur = 13; }
+          this.roundedRect(paddle.x, paddle.y, this.paddleWidth, this.paddleHeight, 7);
+          ctx.shadowBlur = 0;
+        }
+        if (this.app.settings.animations) {
+          this.trail.forEach((point, index) => {
+            ctx.globalAlpha = index / this.trail.length * .22;
+            ctx.fillStyle = colors.text;
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, this.ball.radius * (.3 + index / this.trail.length * .6), 0, Math.PI * 2);
+            ctx.fill();
+          });
+        }
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = colors.text;
+        ctx.beginPath();
+        ctx.arc(this.ball.x, this.ball.y, this.ball.radius, 0, Math.PI * 2);
+        ctx.fill();
+        if (this.state === "playing" && this.serveTime > 0) {
+          ctx.fillStyle = colors.muted;
+          ctx.font = "600 13px ui-sans-serif, sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText(this.serveTime > .45 ? "READY?" : "LET’S RALLY", this.width / 2, this.height / 2 + 45);
+        }
+      }
+    }
+
+    const GAME_INFO = {
+      tictactoe: { title: "Tic Tac Toe", category: "01 / The thinking game", Class: TicTacToe },
+      ludo: { title: "Ludo", category: "02 / A roll of friendly rivalry", Class: Ludo },
+      pong: { title: "Table Tennis", category: "03 / Find your rhythm", Class: Pong }
+    };
+
+    const RULES = {
+      tictactoe: `<p>A classic battle of Xs and Os. <strong>X always goes first.</strong></p><ul>
+        <li>Choose an empty square. Connect three marks horizontally, vertically, or diagonally to win.</li>
+        <li><strong>Vs. a friend:</strong> share this device and take turns.</li>
+        <li><strong>Vs. the bot:</strong> you play X. Easy makes random moves; Hard uses minimax and cannot be beaten. A draw is a good result!</li>
+        <li>Your X wins, O wins, and draws are saved across all modes. Reset starts a new round without clearing scores.</li></ul>`,
+      ludo: `<p>A shorter Ludo with <strong>two tokens per player</strong>. Be the first to bring both to the center.</p><ul>
+        <li><strong>With friends:</strong> choose 2–4 players and take turns on this device.</li>
+        <li><strong>Vs. robots:</strong> you control Violet. Choose 2–4 total players to face one, two, or three AI robots. Robots roll and choose their tokens automatically, using the same fair dice and rules as you.</li>
+        <li>On your turn, roll, then tap a glowing token. Human controls are disabled during robot turns.</li>
+        <li>A <strong>six</strong> brings a token from its yard onto its starred starting square. Turn off that house rule to enter on any roll. Entering uses the whole roll.</li>
+        <li>Move along the shared track, then your own colored lane. Reach or pass the end to finish; <strong>no exact roll is needed.</strong></li>
+        <li>Land on a rival’s token to send it back to its yard. The four <strong>star squares are safe</strong>. Tokens sharing a square do not block movement.</li>
+        <li>A six earns another turn. The first player to finish both tokens wins.</li>
+        <li>Changing opponents, player count, or house rules starts a new match. Robot turns pause while a dialog is open or the page is hidden.</li></ul>`,
+      pong: `<p>A paddle, a ball, and a race to <strong>5 or 7 points</strong>.</p><ul>
+        <li><strong>Solo:</strong> use W / S or ↑ / ↓ to move your left paddle. Choose Easy, Balanced, or Hard for the bot.</li>
+        <li><strong>Two players:</strong> Player 1 uses W / S; Player 2 uses ↑ / ↓.</li>
+        <li><strong>Touch or mouse:</strong> drag on the court to move. In two-player mode, each player drags on their own half.</li>
+        <li>Send the ball past your opponent to score. Hits near the paddle’s edges create sharper angles, and each return speeds up the rally.</li>
+        <li>Press <strong>Space</strong> or use Pause to take a break. The match pauses when you leave the tab or open a dialog.</li>
+        <li>Changing a match option resets the score. Win the match, then play again for a rematch!</li></ul>`
+    };
+
+    class Playroom {
+      constructor() {
+        const saved = storage.read("settings", {});
+        const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        this.settings = {
+          sound: typeof saved?.sound === "boolean" ? saved.sound : true,
+          animations: typeof saved?.animations === "boolean" ? saved.animations : !prefersReducedMotion
+        };
+        this.sound = new SoundManager(() => this.settings.sound);
+        this.games = {};
+        this.currentGame = null;
+        this.toastTimer = null;
+        const last = storage.read("lastGame", null);
+        this.lastGame = Object.prototype.hasOwnProperty.call(GAME_INFO, last) ? last : null;
+
+        buildLudoBoard($("ludo-preview-board"), [0,1,2,3], true);
+        this.applySettings();
+        this.updateHome();
+
+        $("brand-home").addEventListener("click", () => this.showHome());
+        $("nav-games").addEventListener("click", () => this.showHome());
+        $("back-to-menu").addEventListener("click", () => this.showHome());
+        $("nav-guide").addEventListener("click", () => this.openRules(null));
+        $("game-rules").addEventListener("click", () => this.openRules(this.currentGame));
+        $("resume-game").addEventListener("click", () => {
+          if (this.lastGame) this.openGame(this.lastGame);
+        });
+        document.querySelectorAll("[data-game]").forEach(button => {
+          button.addEventListener("click", () => this.openGame(button.dataset.game));
+        });
+        $("reset-game").addEventListener("click", () => {
+          if (!this.currentGame) return;
+          this.sound.play("click");
+          this.games[this.currentGame].reset();
+          this.toast("Fresh start. Let’s play.");
+        });
+
+        $("sound-toggle").addEventListener("click", () => {
+          this.settings.sound = !this.settings.sound;
+          this.saveSettings();
+          this.sound.play("click");
+        });
+        $("open-settings").addEventListener("click", () => this.openDialog("settings-dialog"));
+        $("setting-sound").addEventListener("change", event => {
+          this.settings.sound = event.target.checked;
+          this.saveSettings();
+          this.sound.play("click");
+        });
+        $("setting-animations").addEventListener("change", event => {
+          this.settings.animations = event.target.checked;
+          this.saveSettings();
+        });
+
+        document.querySelectorAll("[data-close-dialog]").forEach(button => {
+          button.addEventListener("click", () => $(button.dataset.closeDialog).close());
+        });
+        document.querySelectorAll("dialog").forEach(dialog => {
+          dialog.addEventListener("click", event => {
+            if (event.target !== dialog) return;
+            const rect = dialog.getBoundingClientRect();
+            if (event.clientX < rect.left || event.clientX > rect.right ||
+                event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+          });
+          dialog.addEventListener("close", () => {
+            if (this.currentGame === "ludo") this.games.ludo.resume();
+          });
+        });
+      }
+
+      modalOpen() {
+        return Boolean(document.querySelector("dialog[open]"));
+      }
+
+      applySettings() {
+        document.body.classList.toggle("reduced-motion", !this.settings.animations);
+        $("sound-toggle").innerHTML = icon(this.settings.sound ? "sound" : "muted");
+        $("sound-toggle").setAttribute("aria-label", this.settings.sound ? "Turn sound off" : "Turn sound on");
+        $("sound-toggle").setAttribute("aria-pressed", String(this.settings.sound));
+        $("setting-sound").checked = this.settings.sound;
+        $("setting-animations").checked = this.settings.animations;
+      }
+
+      saveSettings() {
+        storage.write("settings", this.settings);
+        this.applySettings();
+      }
+
+      updateHome() {
+        document.querySelectorAll("[data-last]").forEach(badge => {
+          badge.hidden = badge.dataset.last !== this.lastGame;
+        });
+        $("resume-game").hidden = !this.lastGame;
+        if (this.lastGame) {
+          $("resume-game").querySelector("span").textContent = `Play ${GAME_INFO[this.lastGame].title} again`;
+        }
+      }
+
+      openGame(id) {
+        if (!Object.prototype.hasOwnProperty.call(GAME_INFO, id)) return;
+        if (this.currentGame) this.games[this.currentGame].deactivate();
+        this.currentGame = id;
+        this.lastGame = id;
+        storage.write("lastGame", id);
+        this.updateHome();
+        $("home-view").hidden = true;
+        $("game-view").hidden = false;
+        document.querySelectorAll(".game-panel").forEach(panel => {
+          panel.hidden = panel.id !== id + "-panel";
+        });
+        $("game-category").textContent = GAME_INFO[id].category;
+        $("game-title").textContent = GAME_INFO[id].title;
+        if (!this.games[id]) this.games[id] = new GAME_INFO[id].Class(this);
+        this.sound.play("click");
+        this.games[id].activate();
+        window.scrollTo({ top: 0, behavior: "auto" });
+        $("game-title").focus({ preventScroll: true });
+      }
+
+      showHome() {
+        if (this.currentGame) {
+          this.games[this.currentGame].deactivate();
+          this.sound.play("click");
+        }
+        this.currentGame = null;
+        $("game-view").hidden = true;
+        $("home-view").hidden = false;
+        document.querySelectorAll(".game-panel").forEach(panel => { panel.hidden = true; });
+        this.updateHome();
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+
+      openDialog(id) {
+        const dialog = $(id);
+        if (dialog.open) return;
+        dialog.showModal();
+        if (this.currentGame === "pong") this.games.pong.pause();
+        if (this.currentGame === "ludo") this.games.ludo.suspend();
+      }
+
+      openRules(id) {
+        if (id && Object.prototype.hasOwnProperty.call(RULES, id)) {
+          $("rules-title").textContent = GAME_INFO[id].title + ": the basics";
+          $("rules-content").innerHTML = RULES[id];
+        } else {
+          $("rules-title").textContent = "The quick guide";
+          $("rules-content").innerHTML = Object.keys(GAME_INFO)
+            .map(key => `<h3>${GAME_INFO[key].title}</h3>${RULES[key]}`).join("");
+        }
+        this.openDialog("rules-dialog");
+      }
+
+      toast(message) {
+        clearTimeout(this.toastTimer);
+        $("toast").querySelector("span").textContent = message;
+        $("toast").hidden = false;
+        this.toastTimer = setTimeout(() => { $("toast").hidden = true; }, 2400);
+      }
+    }
+
+    new Playroom();
+  </script>
+</body>
+</html>
